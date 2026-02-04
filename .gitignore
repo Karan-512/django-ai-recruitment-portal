@@ -1,0 +1,61 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# =========================
+# Django
+# =========================
+
+# SQLite DB (never commit)
+db.sqlite3
+db.sqlite3-journal
+
+# Logs
+*.log
+logs/
+
+# Collected static files (prod)
+staticfiles/
+
+# Media uploads (if you add later)
+media/
+
+# =========================
+# Environment files
+# =========================
+.env
+.env.*
+
+# =========================
+# Docker
+# =========================
+
+# Local docker volume folders (if created later)
+docker-data/
+postgres-data/
+
+# =========================
+# IDE / OS
+# =========================
+
+.vscode/
+.idea/
+
+.DS_Store
+Thumbs.db
+
+# =========================
+# Testing / coverage
+# =========================
+
+.pytest_cache/
+.coverage
+htmlcov/
