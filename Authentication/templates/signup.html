@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign up - HireSmart</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+
+<body>
+    <div class="container-fluid auth-background">
+        <div class="auth-card text-center px-5 py-4 d-flex align-items-center flex-column">
+            <div class="row align-items-center justify-content-center w-50 mx-auto">
+                <div class="avatar col-3"></div>
+                <div class="col-9">
+                    <h3>Welcome</h3>
+                </div>
+            </div>
+            <p class="sub-heading">Please enter your details to sign up</p>
+
+            <form method="POST" action="{% url 'signup' %}" class="text-start my-4 mx-5 w-100 auth-form">
+                {% csrf_token %}
+
+                <!-- First & Last Name -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label>First Name</label>
+                        <input type="text" name="first_name" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Last Name</label>
+                        <input type="text" name="last_name" class="form-control" required>
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label>Email address</label>
+                    <input type="email" name="email" class="form-control" required>
+                </div>
+
+                <!-- Passwords -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label>Password</label>
+                        <input type="password" name="password1" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Confirm Password</label>
+                        <input type="password" name="password2" class="form-control" required>
+                    </div>
+                </div>
+
+                <!-- Role Selection -->
+                <div class="mb-4">
+                    <label>Role Selection</label>
+                    <select name="role" class="form-control" required>
+                        <option value="" disabled selected>Select your role</option>
+                        <option value="job_seeker">Job Seeker</option>
+                        <option value="company">Company</option>
+                    </select>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="btn auth-btn d-block mx-auto">
+                    Sign up
+                </button>
+
+                <!-- Login link -->
+                <div class="text-center mt-4 auth-bottom-text">
+                    Already registered? <a href="{% url 'login' %}">Login</a>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

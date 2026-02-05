@@ -3,6 +3,10 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 def landing_page(request):
     return render(request, 'landing.html')
 
@@ -53,20 +57,45 @@ def login_view(request):
     return render(request, 'login.html')
 
 
-@login_required
-def jobseeker_home(request):
+def signup_view(request):
+    if request.method == "POST":
+        fname = request.POST.get("first_name")
+        lname = request.POST.get("last_name")
+        email = request.POST.get("email")
+        password = request.POST.get("password1")
+        cpass = request.POST.get("password2")
+        role = request.POST.get("role")
+        obj = User.objects.filter(username = email).exists()
+        if obj:
+            return render(request,'login.html',{"error":"User already exists. Please try again!"})
+        elif(password != cpass):
+            return render(request,'register.html',{"error":"Passwords don't match!"})
+        else:
+            User.objects.create_user(
+                username=email,
+                first_name=fname,
+                last_name=lname,
+                email=email,
+                password=password,
+                role=role)
+            return redirect('login')
+    else:
+        return render(request, 'signup.html')
 
-    if request.user.role != 'jobseeker':
-        messages.error(request, "Unauthorized access!")
-        return redirect('login')
+# @login_required
+# def jobseeker_home(request):
 
-    return render(request, 'jobseeker_home.html')
+#     if request.user.role != 'jobseeker':
+#         messages.error(request, "Unauthorized access!")
+#         return redirect('login')
 
-@login_required
-def company_home(request):
+#     return render(request, 'jobseeker_home.html')
 
-    if request.user.role != 'company':
-        messages.error(request, "Unauthorized access!")
-        return redirect('login')
+# @login_required
+# def company_home(request):
 
-    return render(request, 'company_home.html')
+#     if request.user.role != 'company':
+#         messages.error(request, "Unauthorized access!")
+#         return redirect('login')
+
+#     return render(request, 'company_home.html')
