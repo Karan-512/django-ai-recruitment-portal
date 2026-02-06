@@ -8,6 +8,7 @@
     --light-text: #64748B;
     --border-color: #dbeafe;
     --sub-heading: rgb(82 82 82);
+    --menu: #6B7280;
 }
 
 body {
@@ -141,7 +142,8 @@ body {
     height: auto;
     width: auto;
 }
-.auth-card h3{
+
+.auth-card h3 {
     color: var(--dark-text);
     font-weight: 700;
 }
@@ -172,7 +174,8 @@ body {
 }
 
 .auth-form input:focus {
-    background-color: white;/*color-mix(in srgb, var(--bg-color) 50%, transparent);*/
+    background-color: white;
+    /*color-mix(in srgb, var(--bg-color) 50%, transparent);*/
     border: 3px solid var(--primary-color);
 }
 
@@ -206,6 +209,76 @@ body {
 }
 
 /* AUTHENTICATION CSS END */
+
+
+
+/* JOB SEEKER CSS */
+.sidebar {
+    background-color: color-mix(in srgb, var(--primary-color) 5%, transparent);
+    position: fixed;
+}
+
+.sidebar-header {
+    background-color: var(--primary-color);
+    width: 100%;
+}
+
+.menu-item {
+    list-style: none;
+}
+
+.menu-item.active {
+    background-color: var(--primary-color);
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+}
+
+.menu-item.active a {
+    color: var(--bg-color);
+}
+
+.menu-item.active a:hover {
+    color: var(--bg-color);
+}
+
+.menu-item a:hover {
+    color: var(--secondary-color);
+}
+
+.menu-item a {
+    text-decoration: none;
+    color: var(--menu);
+    font-size: 1em;
+}
+
+.page-content {
+    height: auto;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
+.nav-items a {
+    text-decoration: none;
+    color: var(--bg-color);
+    font-size: 1em;
+}
+
+#js-navbar{
+    background-color: var(--primary-color);
+}
+.nav-items a:hover {
+    color: #cbd5e1;
+}
+.nav-items a.active{
+    font-weight: 600;
+    font-size: 1.1em;
+    color: white;
+}
+
+.nav-items {
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+}
+
+/* JOB SEEKER CSS END */
 
 @media(max-width:992px) {
 
