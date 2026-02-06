@@ -168,7 +168,8 @@ body {
 }
 
 .auth-form input,
-.auth-form select {
+.auth-form select,
+.auth-form span {
     background-color: color-mix(in srgb, var(--bg-color) 50%, transparent);
     border: 2px solid color-mix(in srgb, var(--bg-color) 80%, transparent);
 }
