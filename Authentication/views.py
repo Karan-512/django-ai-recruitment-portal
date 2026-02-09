@@ -12,8 +12,6 @@ def landing_page(request):
 
 
 
-
-
 def login_view(request):
 
     # Prevent logged-in users from opening login again
@@ -101,85 +99,3 @@ def signup_view(request):
 #         return redirect('login')
 
 #     return render(request, 'company_home.html')
-
-
-# from django.contrib.auth import authenticate, login
-# from django.shortcuts import redirect, render
-# from django.contrib import messages
-
-def login_view(request):
-    if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            login(request, user)
-
-            # 🔁 Redirect to website / dashboard after login
-            if user.profile.role == "JOBSEEKER":
-                return redirect("jobseeker_home")
-            elif user.profile.role == "COMPANY":
-                return redirect("company_home")
-            else:
-                return redirect("landing")   # fallback
-
-        else:
-            messages.error(request, "Invalid email or password")
-
-    return render(request, "login.html")
-
-from django.shortcuts import render
-
-def jobseeker_home(request):
-    return render(request, "jobseeker_home.html")
-
-
-def company_home(request):
-    return render(request, "company_home.html")
-
-
-from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
-from django.contrib import messages
-
-def login_view(request):
-    if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            login(request, user)
-
-            # 🔁 Role-based redirect
-            if user.role == "jobseeker":
-                return redirect("jobseeker_home")
-            elif user.role == "company":
-                return redirect("company_home")
-            else:
-                messages.warning(request, "Role not assigned.")
-                return redirect("landing")
-
-        else:
-            messages.error(request, "Invalid email or password")
-
-    return render(request, "login.html")
-
-
-
-
-@login_required
-def jobseeker_home(request):
-    return render(request, "jobseeker_home.html")
-
-
-@login_required
-def company_home(request):
-    return render(request, "company_home.html")
-
-
-
-
