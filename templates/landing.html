@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    {% load static %}
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{% block title %}HireSmart{% endblock %}</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+</head>
+
+<body>
+    <!-- ✅ NAVBAR -->
+    <header>
+        <nav class="navbar navbar-expand-lg custom-navbar">
+            <div class="container-fluid">
+                <!-- Logo -->
+                <a class="navbar-brand d-flex align-items-center" href="#">
+                    <div class="logo-circle"></div>
+                    <span class="brand-text">HIRESMART</span>
+                </a>
+
+                <!-- Toggle -->
+                <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarSmart">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Menu -->
+                <div class="collapse navbar-collapse justify-content-end" id="navbarSmart">
+                    <ul class="navbar-nav align-items-center">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Features</a>
+                        </li>
+
+                        <span class="divider"></span>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Contact us</a>
+                        </li>
+
+                        <span class="divider"></span>
+
+                        <!-- Django Auth -->
+                        {% if not user.is_authenticated %}
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        </li>
+
+                        <span class="divider"></span>
+
+                        <li class="nav-item">
+                            <a class="nav-link signup" href="{% url 'signup' %}">Sign up</a>
+                        </li>
+
+                        {% else %}
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Logout</a>
+                        </li>
+
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero-section">
+        <div class="container-fluid px-5">
+            <div class="row align-items-center">
+                <!-- LEFT -->
+                <div class="col-lg-6">
+                    <h1 class="hero-title">
+                        Where Skills Meet the <br />
+                        Right Opportunities.
+                    </h1>
+
+                    <p class="hero-subtitle">
+                        AI-powered job matching that connects talent with roles that fit
+                        perfectly.
+                    </p>
+
+                    <a href="#" class="btn hero-btn"> Get Started → </a>
+                </div>
+
+                <!-- RIGHT IMAGE -->
+                <div class="col-lg-6 d-flex justify-content-center">
+                    <img src="{% static 'images/Hero_image.png' %}" class="img-fluid hero-image" alt="Hero Image" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section">
+        <div class="container">
+            <h2 class="text-center features-heading">Our Features</h2>
+
+            <div class="row mt-5 g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-box">
+                        <i class="fa-solid fa-bullseye feature-icon"></i>
+                        <h5>Smart AI Matching</h5>
+                        <p>
+                            Our AI matches your skills with the most relevant jobs
+                            instantly.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-box">
+                        <i class="fa-solid fa-file-lines feature-icon"></i>
+                        <h5>Resume Insights</h5>
+                        <p>
+                            Automatically extract skills, experience, and key resume data.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-box">
+                        <i class="fa-solid fa-user-check feature-icon"></i>
+                        <h5>Personalized Jobs</h5>
+                        <p>Get job recommendations tailored to your profile.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-box">
+                        <i class="fa-solid fa-chart-line feature-icon"></i>
+                        <h5>Skill Match Score</h5>
+                        <p>Instantly see how well you match job requirements.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-card">
+                <div class="row align-items-center">
+
+                    <!-- Left Side -->
+                    <div class="col-lg-5 mb-4 mb-lg-0 text-center text-lg-start">
+
+                        <img src="https://cdn-icons-png.flaticon.com/512/1041/1041916.png" class="contact-icon">
+
+                        <h1 class="contact-title">GET IN TOUCH</h1>
+
+                        <p class="contact-text mt-3">
+                            Have a question, feedback, or partnership idea?<br>
+                            Drop us a message and we’ll get back to you as soon as possible.
+                        </p>
+                    </div>
+
+
+                    <!-- Right Side Form -->
+                    <div class="col-lg-7">
+                        <form>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">First Name</label>
+                                    <input type="text" class="form-control" required>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" class="form-control" required>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">Message</label>
+                                <textarea class="form-control" required></textarea>
+                            </div>
+
+                            <button class="btn btn-custom">
+                                Send Message
+                            </button>
+
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer-exact text-center">
+    <div class="container">
+
+        <div class="footer-menu">
+            <a href="#">Features</a>
+            <span>|</span>
+            <a href="#">Contact us</a>
+            <span>|</span>
+            <a href="{% url 'login' %}">Login</a>
+            <span>|</span>
+            <a href="#">Sign up</a>
+        </div>
+
+        <p class="footer-text mb-0">
+            © 2026 HireSmart. All rights reserved.
+        </p>
+
+    </div>
+</footer>
+
+
+    <div class="container mt-4">{% block content %} {% endblock %}</div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
