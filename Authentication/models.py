@@ -4,7 +4,7 @@ from django.db import models
 class User(AbstractUser):
 
     ROLE_CHOICES = (
-        ('jobseeker', 'Job Seeker'),
+        ('job_seeker', 'Job Seeker'),
         ('company', 'Company'),
     )
 

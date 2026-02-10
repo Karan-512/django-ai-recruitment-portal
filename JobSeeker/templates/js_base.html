@@ -66,14 +66,24 @@
 
                 </ul>
 
-                <div class="mt-auto sidebar-footer p-4">
+                {% comment %} <div class="mt-auto sidebar-footer p-4">
                     <hr>
                     <a href="#" class="d-flex align-items-center text-danger"
                         style="text-decoration: none; font-size: 18px;">
                         <i class="fi fi-rr-exit me-2"></i>
                         Logout
                     </a>
-                </div>
+                </div> {% endcomment %}
+                <div class="mt-auto sidebar-footer p-4">
+                <form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-link p-0 d-flex align-items-center"
+        style="text-decoration: none; font-size: 1em; color: #FD6584; font-weight: bold;">
+        <i class="fi fi-rr-exit me-2"></i>
+        Logout
+    </button>
+</form>
+
 
             </aside>
             <nav class="navbar navbar-expand-lg d-lg-none navbar-dark" id="js-navbar">

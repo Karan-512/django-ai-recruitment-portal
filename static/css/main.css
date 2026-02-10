@@ -482,3 +482,8 @@ textarea.form-control {
     color: #cbd5e1;
     font-size: 14px;
 }
+
+.sidebar-footer button,
+.sidebar-footer i {
+    color: #000 !important;
+}
