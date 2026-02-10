@@ -281,6 +281,14 @@ body {
 
 /* JOB SEEKER CSS END */
 
+
+/* Hiding the in-built icons for input fields of passwords */
+input::-ms-reveal,
+input::-ms-clear {
+    display: none;
+}
+
+
 @media(max-width:992px) {
 
     .hero-section {
