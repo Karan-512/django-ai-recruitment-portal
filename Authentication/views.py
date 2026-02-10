@@ -7,65 +7,12 @@ from django.contrib.auth import get_user_model
 
 from django.contrib.auth import logout
 
-def logout_view(request):
-    logout(request)
-    return redirect("landing")
-
-
-
-
-
-
 User = get_user_model()
 
 def landing_page(request):
     return render(request, 'landing.html')
 
 
-
-# def login_view(request):
-
-#     # Prevent logged-in users from opening login again
-#     if request.user.is_authenticated:
-
-#         if request.user.role == 'jobseeker':
-#             return redirect('jobseeker_home')
-
-#         elif request.user.role == 'company':
-#             return redirect('company_home')
-
-
-#     if request.method == "POST":
-
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-
-#         # Empty field validation
-#         if not username or not password:
-#             messages.error(request, "Both fields are required!")
-#             return redirect('login')
-
-#         user = authenticate(request, username=username, password=password)
-
-#         # Invalid credentials
-#         if user is None:
-#             messages.error(request, "Invalid Username or Password")
-#             return redirect('login')
-
-#         # Login user
-#         login(request, user)
-
-#         # Success alert
-#         messages.success(request, f"Welcome {user.username}!")
-
-#         # Role-based redirect
-#         if user.role == 'jobseeker':
-#             return redirect('jobseeker_home')
-
-#         elif user.role == 'company':
-#             return redirect('company_home')
-
-#     return render(request, 'login.html')
 def login_view(request):
 
     if request.user.is_authenticated:
@@ -93,9 +40,6 @@ def login_view(request):
 
     return render(request, 'login.html')
 
-     
-
-
 
 def signup_view(request):
     if request.method == "POST":
@@ -107,9 +51,9 @@ def signup_view(request):
         role = request.POST.get("role")
         obj = User.objects.filter(username = email).exists()
         if obj:
-            return render(request,'login.html',{"error":"User already exists. Please try again!"})
+            return render(request,'signup.html',{"error":"User already exists. Please try again!"})
         elif(password != cpass):
-            return render(request,'register.html',{"error":"Passwords don't match!"})
+            return render(request,'signup.html',{"error":"Passwords don't match!"})
         else:
             User.objects.create_user(
                 username=email,
@@ -122,23 +66,7 @@ def signup_view(request):
     else:
         return render(request, 'signup.html')
 
-# @login_required
-# def jobseeker_home(request):
 
-#     if request.user.role != 'jobseeker':
-#         messages.error(request, "Unauthorized access!")
-#         return redirect('login')
-
-#     return render(request, 'jobseeker_home.html')
-
-# @login_required
-# def company_home(request):
-
-#     if request.user.role != 'company':
-#         messages.error(request, "Unauthorized access!")
-#         return redirect('login')
-
-#     return render(request, 'company_home.html')
 def redirect_by_role(user):
     if user.role == 'job_seeker':
         return redirect('js-my-profile')
@@ -146,3 +74,8 @@ def redirect_by_role(user):
         return redirect('landing')
     else:
         return redirect('landing')
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect("landing")

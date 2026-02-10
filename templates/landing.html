@@ -64,9 +64,9 @@
                         </li>
 
                         {% else %}
-               <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                        </li> 
+                        </li>
                         {% endif %}
                     </ul>
                 </div>
@@ -203,24 +203,24 @@
     </section>
 
     <footer class="footer-exact text-center">
-    <div class="container">
+        <div class="container">
 
-        <div class="footer-menu">
-            <a href="#">Features</a>
-            <span>|</span>
-            <a href="#">Contact us</a>
-            <span>|</span>
-            <a href="{% url 'login' %}">Login</a>
-            <span>|</span>
-            <a href="{% url 'signup' %}">Sign up</a>
+            <div class="footer-menu">
+                <a href="#">Features</a>
+                <span>|</span>
+                <a href="#">Contact us</a>
+                <span>|</span>
+                <a href="{% url 'login' %}">Login</a>
+                <span>|</span>
+                <a href="{% url 'signup' %}">Sign up</a>
+            </div>
+
+            <p class="footer-text mb-0">
+                © 2026 HireSmart. All rights reserved.
+            </p>
+
         </div>
-
-        <p class="footer-text mb-0">
-            © 2026 HireSmart. All rights reserved.
-        </p>
-
-    </div>
-</footer>
+    </footer>
 
 
     <div class="container mt-4">{% block content %} {% endblock %}</div>
