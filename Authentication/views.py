@@ -71,7 +71,7 @@ def redirect_by_role(user):
     if user.role == 'job_seeker':
         return redirect('js-my-profile')
     elif user.role == 'company':
-        return redirect('landing')
+        return redirect('company-home')
     else:
         return redirect('landing')
 

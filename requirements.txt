@@ -1,6 +1,7 @@
 Django
 gunicorn
-# mysqlclient
+mysqlclient
 python-dotenv
 whitenoise
 psycopg2-binary
+Pillow

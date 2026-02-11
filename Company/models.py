@@ -1,0 +1,100 @@
+from django.db import models
+from django.conf import settings
+
+from JobSeeker.models import JobSeekerProfile
+
+# Create your models here.
+
+class CompanyProfile(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="company_profiles"
+    )
+
+    company_name = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
+    company_logo = models.ImageField(upload_to="company_logos/", blank=True, null=True)
+    industry = models.CharField(max_length=150)
+    company_website = models.URLField(blank=True, null=True)
+    company_size = models.CharField(max_length=100, blank=True, null=True)
+    founded_year = models.PositiveIntegerField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.company_name
+
+
+class JobPosting(models.Model):
+
+    JOB_TYPE_CHOICES = (
+        ('full_time', 'Full Time'),
+        ('part_time', 'Part Time'),
+        ('contract', 'Contract'),
+        ('internship', 'Internship'),
+        ('remote', 'Remote'),
+    )
+
+    company = models.ForeignKey(
+        CompanyProfile,
+        on_delete=models.CASCADE,
+        related_name="job_postings"
+    )
+
+    job_title = models.CharField(max_length=255)
+    job_description = models.TextField()
+    salary = models.CharField(max_length=100, blank=True, null=True)
+    location = models.CharField(max_length=255)
+    job_type = models.CharField(max_length=50, choices=JOB_TYPE_CHOICES)
+    required_experience = models.CharField(max_length=100)
+    skills_required = models.TextField(blank=True, null=True)
+
+    is_active = models.BooleanField(default=True)
+
+    posted_date = models.DateTimeField(auto_now_add=True)
+    deadline = models.DateField(blank=True, null=True)
+
+    def __str__(self):
+        return self.job_title
+
+
+class Application(models.Model):
+
+    STATUS_CHOICES = (
+        ('applied', 'Applied'),
+        ('reviewing', 'Reviewing'),
+        ('shortlisted', 'Shortlisted'),
+        ('rejected', 'Rejected'),
+        ('accepted', 'Accepted'),
+    )
+
+    job_seeker = models.ForeignKey(
+        JobSeekerProfile,
+        on_delete=models.CASCADE,
+        related_name="applications"
+    )
+
+    job_posting = models.ForeignKey(
+        JobPosting,
+        on_delete=models.CASCADE,
+        related_name="applications"
+    )
+
+    application_status = models.CharField(
+        max_length=50,
+        choices=STATUS_CHOICES,
+        default='applied'
+    )
+
+    applied_date = models.DateTimeField(auto_now_add=True)
+
+    cover_letter = models.TextField(blank=True, null=True)
+
+    class Meta:
+        unique_together = ('job_seeker', 'job_posting')
+
+    def __str__(self):
+        return f"{self.job_seeker} - {self.job_posting}"
