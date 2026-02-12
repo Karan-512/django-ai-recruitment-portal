@@ -36,22 +36,22 @@
             <div class="col-md-9">
                 <div class="mb-3">
                     <input type="text" name="company_name" class="form-control" placeholder="Company Name"
-                        value="{% if company.company_name %} {{ company.company_name }} {% endif %}" required>
+                        value="{% if company.company_name %}{{ company.company_name }}{% endif %}" required>
                 </div>
 
                 <div class="mb-3">
                     <input type="text" name="industry" class="form-control" placeholder="Industry"
-                        value="{% if company.industry %} {{ company.industry }} {% endif %}">
+                        value="{% if company.industry %}{{ company.industry }}{% endif %}">
                 </div>
 
                 <div class="mb-3">
                     <input type="email" name="company_email" class="form-control" placeholder="Company Email"
-                        value="{% if company_email %} {{ company_email }} {% endif %}" readonly>
+                        value="{% if company_email %}{{ company_email }}{% endif %}" readonly>
                 </div>
 
                 <div class="mb-3">
                     <input type="url" name="company_website" class="form-control" placeholder="Company Website"
-                        value="{% if company.company_website %} {{ company.company_website }} {% endif %}">
+                        value="{% if company.company_website %}{{ company.company_website }}{% endif %}">
                 </div>
             </div>
         </div>
@@ -59,12 +59,12 @@
         <div class="row mt-4 g-3">
             <div class="col-md-6">
                 <input type="text" name="location" class="form-control" placeholder="Location"
-                    value="{% if company.location %} {{ company.location }} {% endif %}">
+                    value="{% if company.location %}{{ company.location }}{% endif %}">
             </div>
 
             <div class="col-md-3">
                 <input type="text" name="company_size" class="form-control" placeholder="Company Size (e.g. 50-100)"
-                    value="{% if company.company_size %} {{ company.company_size }} {% endif %}">
+                    value="{% if company.company_size %}{{ company.company_size }}{% endif %}">
             </div>
 
             <div class="col-md-3">
@@ -75,9 +75,7 @@
 
         <!-- Description -->
         <div class="mt-4">
-            <textarea name="description" class="form-control" rows="4" placeholder="Company Description">
-                {% if company.description %}{{ company.description }}{% endif %}
-            </textarea>
+            <textarea name="description" class="form-control" rows="4" placeholder="Company Description">{% if company.description %}{{ company.description }}{% endif %}</textarea>
         </div>
 
         <!-- Submit -->
