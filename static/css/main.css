@@ -159,7 +159,7 @@ body {
 
 .sub-heading {
     color: var(--sub-heading);
-    font-size: 18px;
+    font-size: 1em;
 }
 
 .auth-form label {
@@ -263,13 +263,15 @@ body {
     font-size: 1em;
 }
 
-#js-navbar{
+#js-navbar {
     background-color: var(--primary-color);
 }
+
 .nav-items a:hover {
     color: #cbd5e1;
 }
-.nav-items a.active{
+
+.nav-items a.active {
     font-weight: 600;
     font-size: 1.1em;
     color: white;
@@ -287,6 +289,92 @@ input::-ms-reveal,
 input::-ms-clear {
     display: none;
 }
+
+
+/* COMPANY APP CSS */
+.company-base-card {
+    background-color: var(--bg-color);
+    top: 1em;
+    left: 1em;
+    height: 96vh;
+    width: 98vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.company-base-card>.row:nth-of-type(2) {
+    flex: 1;
+}
+
+.company-header {
+    background-color: var(--secondary-color);
+    border-top-left-radius: 15px;
+}
+
+.company-sidebar {
+    /* background-color: color-mix(in srgb, var(--secondary-color) 45%, transparent); */
+    /* left: 1em; */
+    background: radial-gradient(circle at left center,
+            color-mix(in srgb, var(--secondary-color) 35%, transparent) 5%,
+            color-mix(in srgb, var(--secondary-color) 70%, transparent) 80%);
+    border-bottom-left-radius: 15px;
+    height: 100%;
+}
+
+.company-menu-item {
+    list-style: none;
+}
+
+.company-menu-item.active {
+    margin: 10px;
+    background-color: var(--secondary-color);
+    border-radius: 10px;
+}
+
+
+.company-menu-item a {
+    text-decoration: none;
+    color: color-mix(in srgb, var(--dark-text) 75%, transparent);
+}
+
+.company-menu-item.active a {
+    text-decoration: none;
+    color: var(--bg-color);
+}
+
+.company-menu-item i {
+    color: #6367C6;
+}
+
+.company-menu-item.active i {
+    color: #6367C6;
+    font-size: 0.8em;
+    background-color: var(--bg-color);
+    border-radius: 50%;
+    padding: 10px 15px;
+}
+
+#company-navbar {
+    background-color: var(--secondary-color);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.company-nav-item a {
+    text-decoration: none;
+    color: var(--bg-color);
+    margin-bottom: 20px;
+}
+
+.company-nav-item.active a {
+    text-decoration: none;
+    color: var(--bg-color);
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* COMPANY APP CSS END */
 
 
 @media(max-width:992px) {
