@@ -13,18 +13,31 @@
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css">
 
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+    </style>
 </head>
 
-<body style="background-color: #A78FFA" class="p-5">
-    <div class="container-fluid rounded-4 position-fixed p-0 company-base-card">
+<body style="background-color: #A78FFA">
+    <div class="container-fluid p-0 company-base-card">
         <!-- Desktop View Header Row -->
-        <div class="row g-0 d-none d-md-flex">
-            <div
-                class="col-md-4 d-none d-md-flex align-items-center justify-content-center company-header px-5 py-4 text-white">
-                <div class="bg-light rounded-circle me-2" style="width:60px;height:60px;"></div>
-                <h3>HireSmart</h3>
+        <div class="row g-0 d-none d-md-flex" style="background-color: rgb(99 102 241);">
+            <div class="col-md-4 d-none d-md-flex align-items-center justify-content-center"
+                style="background-color: rgb(248 250 252);">
+                <div
+                    class="col-md-4 d-none d-md-flex align-items-center justify-content-center company-header w-100 h-100 px-5 py-4 text-white">
+
+                    <div class="bg-light rounded-circle me-2" style="width:60px;height:60px;"></div>
+                    <h3>HireSmart</h3>
+                </div>
             </div>
-            <div class="col-md-8 d-none d-md-flex align-items-center justify-content-between px-5 py-4">
+            <div class="col-md-8 d-none d-md-flex align-items-center justify-content-between px-5 py-4 mt-2"
+                style="background-color: rgb(248 250 252); border-top-left-radius: 15px;">
                 <h2 class="mb-0">{% block pageTitle %}{% endblock %}</h2>
                 <div class="text-end">
                     <h5 class="mb-0">Welcome, UserName</h5>
@@ -127,7 +140,7 @@
                 </div>
             </aside>
 
-            <div class="col-12 col-md-8 col-lg-9 p-5 page-content">
+            <div class="col-12 col-md-8 col-lg-9 p-5 company-page-content">
                 <h4>Main Content Area</h4>
                 {% block content %}
                 {% endblock%}

@@ -296,19 +296,22 @@ input::-ms-clear {
     background-color: var(--bg-color);
     top: 1em;
     left: 1em;
-    height: 96vh;
-    width: 98vw;
+    height: 100vh;
+    width: 100vw;
     display: flex;
     flex-direction: column;
 }
 
 .company-base-card>.row:nth-of-type(2) {
     flex: 1;
+    display: flex;
+    /* VERY IMPORTANT */
+    min-height: 0;
 }
 
 .company-header {
     background-color: var(--secondary-color);
-    border-top-left-radius: 15px;
+    border-bottom-right-radius: 15px;
 }
 
 .company-sidebar {
@@ -317,8 +320,15 @@ input::-ms-clear {
     background: radial-gradient(circle at left center,
             color-mix(in srgb, var(--secondary-color) 35%, transparent) 5%,
             color-mix(in srgb, var(--secondary-color) 70%, transparent) 80%);
-    border-bottom-left-radius: 15px;
     height: 100%;
+    overflow: hidden;
+}
+
+.company-page-content {
+    flex: 1;
+    overflow-y: auto;
+    /* THIS is where scrolling happens */
+    min-height: 0;
 }
 
 .company-menu-item {
@@ -356,8 +366,6 @@ input::-ms-clear {
 
 #company-navbar {
     background-color: var(--secondary-color);
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
 }
 
 .company-nav-item a {
