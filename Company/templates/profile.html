@@ -2,5 +2,95 @@
 <title>{% block title %} Profile {% endblock %}</title>
 <h2>{% block pageTitle %} Company Profile {% endblock %}</h2>
 {% block content %}
+<div class="card company-content-card mx-3 my-0 p-4">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
 
+    <form action="{% url 'company-profile' %}" enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        <div class="row g-4">
+            <!-- Logo Upload -->
+            <div class="col-md-3 text-center m-auto">
+                <div class="logo-upload-wrapper mb-3">
+                    <div class="logo-preview rounded-circle" id="logoPreviewContainer">
+                        {% if company.company_logo %}
+                        <img src="{{ company.company_logo.url}}" alt="Company Logo"
+                            class="img-fluid rounded-circle logo-img">
+                        {% else %}
+                        <i class="fi fi-sr-camera fs-3" id="logoPreviewIcon"></i>
+                        {% endif %}
+                    </div>
+                </div>
+                <input type="file" id="companyLogoInput" name="company_logo" class="form-control d-none">
+                <label for="companyLogoInput" class="btn btn-primary logo-upload">
+                    Upload Logo
+                </label>
+            </div>
+
+            <div class="col-md-9">
+                <div class="mb-3">
+                    <input type="text" name="company_name" class="form-control" placeholder="Company Name"
+                        value="{% if company.company_name %} {{ company.company_name }} {% endif %}" required>
+                </div>
+
+                <div class="mb-3">
+                    <input type="text" name="industry" class="form-control" placeholder="Industry"
+                        value="{% if company.industry %} {{ company.industry }} {% endif %}">
+                </div>
+
+                <div class="mb-3">
+                    <input type="email" name="company_email" class="form-control" placeholder="Company Email"
+                        value="{% if company_email %} {{ company_email }} {% endif %}" readonly>
+                </div>
+
+                <div class="mb-3">
+                    <input type="url" name="company_website" class="form-control" placeholder="Company Website"
+                        value="{% if company.company_website %} {{ company.company_website }} {% endif %}">
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4 g-3">
+            <div class="col-md-6">
+                <input type="text" name="location" class="form-control" placeholder="Location"
+                    value="{% if company.location %} {{ company.location }} {% endif %}">
+            </div>
+
+            <div class="col-md-3">
+                <input type="text" name="company_size" class="form-control" placeholder="Company Size (e.g. 50-100)"
+                    value="{% if company.company_size %} {{ company.company_size }} {% endif %}">
+            </div>
+
+            <div class="col-md-3">
+                <input type="number" name="founded_year" class="form-control" placeholder="Founded Year"
+                    value="{{ company.founded_year|default:'' }}">
+            </div>
+        </div>
+
+        <!-- Description -->
+        <div class="mt-4">
+            <textarea name="description" class="form-control" rows="4" placeholder="Company Description">
+                {% if company.description %}{{ company.description }}{% endif %}
+            </textarea>
+        </div>
+
+        <!-- Submit -->
+        <div class="text-end mt-4">
+            <button type="submit" class="btn btn-primary px-4 py-2 rounded-3 c-save-btn">
+                Save
+            </button>
+        </div>
+    </form>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        previewLogo("companyLogoInput", "logoPreviewContainer");
+    });
+</script>
 {% endblock %}

@@ -38,14 +38,25 @@
                 <!-- Menu -->
                 <div class="collapse navbar-collapse justify-content-end" id="navbarSmart">
                     <ul class="navbar-nav align-items-center">
+                        {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Features</a>
+                            <a class="nav-link"
+                                href="{% if request.user.role == 'job_seeker' %}
+                                        {% url 'js-my-profile' %}
+                                      {% elif request.user.role == 'company' %}
+                                        {% url 'company-home' %} {% endif %}">Dashboard</a>
+                        </li>
+                        <span class="divider"></span>
+
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#features-section">Features</a>
                         </li>
 
                         <span class="divider"></span>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Contact us</a>
+                            <a class="nav-link" href="#contact-section">Contact us</a>
                         </li>
 
                         <span class="divider"></span>
@@ -100,7 +111,7 @@
         </div>
     </section>
 
-    <section class="features-section">
+    <section class="features-section" id="features-section">
         <div class="container">
             <h2 class="text-center features-heading">Our Features</h2>
 
@@ -145,7 +156,7 @@
         </div>
     </section>
 
-    <section class="contact-section">
+    <section class="contact-section" id="contact-section">
         <div class="container">
             <div class="contact-card">
                 <div class="row align-items-center">

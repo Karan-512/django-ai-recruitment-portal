@@ -12,10 +12,10 @@ class CompanyProfile(models.Model):
         related_name="company_profiles"
     )
 
-    company_name = models.CharField(max_length=255)
-    location = models.CharField(max_length=255)
+    company_name = models.CharField(max_length=255, blank=True)
+    location = models.CharField(max_length=255, blank=True)
     company_logo = models.ImageField(upload_to="company_logos/", blank=True, null=True)
-    industry = models.CharField(max_length=150)
+    industry = models.CharField(max_length=150, blank=True)
     company_website = models.URLField(blank=True, null=True)
     company_size = models.CharField(max_length=100, blank=True, null=True)
     founded_year = models.PositiveIntegerField(blank=True, null=True)

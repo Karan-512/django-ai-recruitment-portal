@@ -2,10 +2,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-
 from django.contrib.auth import get_user_model
-
 from django.contrib.auth import logout
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from Company.models import CompanyProfile
+from JobSeeker.models import JobSeekerProfile
+
 
 User = get_user_model()
 
@@ -49,22 +52,34 @@ def signup_view(request):
         password = request.POST.get("password1")
         cpass = request.POST.get("password2")
         role = request.POST.get("role")
-        obj = User.objects.filter(username = email).exists()
-        if obj:
-            return render(request,'signup.html',{"error":"User already exists. Please try again!"})
-        elif(password != cpass):
-            return render(request,'signup.html',{"error":"Passwords don't match!"})
-        else:
+
+        if User.objects.filter(username=email).exists():
+            return render(request, 'signup.html', {
+                "error": "User already exists. Please login."
+            })
+
+        if password != cpass:
+            return render(request, 'signup.html', {
+                "error": "Passwords do not match."
+            })
+
+        try:
             User.objects.create_user(
                 username=email,
+                email=email,
                 first_name=fname,
                 last_name=lname,
-                email=email,
                 password=password,
-                role=role)
-            return redirect('login')
-    else:
-        return render(request, 'signup.html')
+                role=role
+            )
+        except Exception:
+            return render(request, 'signup.html', {
+                "error": "Something went wrong. Please try again."
+            })
+
+        return redirect('login')
+
+    return render(request, 'signup.html')
 
 
 def redirect_by_role(user):
@@ -79,3 +94,12 @@ def redirect_by_role(user):
 def logout_view(request):
     logout(request)
     return redirect("landing")
+
+
+@receiver(post_save, sender=User)
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        if instance.role == 'company':
+            CompanyProfile.objects.create(user=instance)
+        elif instance.role == 'job_seeker':
+            JobSeekerProfile.objects.create(user=instance)
