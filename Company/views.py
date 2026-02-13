@@ -11,7 +11,6 @@ def Home(request):
 @login_required
 def Profile(request):
     company = CompanyProfile.objects.get(user=request.user)
-    print(company.company_logo.url)
     if request.method == 'POST':
         company.company_name = request.POST.get("company_name")
         company.industry = request.POST.get("industry")
