@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 def myProfile(request):
-    return render(request, 'myProfile.html', {'isActive': True})
+    return render(request, 'myProfile.html', {'pageTitle': 'My Profile'})
 
 def allJobs(request):
     pass
