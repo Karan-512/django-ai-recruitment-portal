@@ -49,13 +49,23 @@ class JobPosting(models.Model):
     salary = models.CharField(max_length=100, blank=True, null=True)
     location = models.CharField(max_length=255)
     job_type = models.CharField(max_length=50, choices=JOB_TYPE_CHOICES)
-    required_experience = models.CharField(max_length=100)
+    # required_experience = models.CharField(max_length=100)
+    required_experience = models.CharField(max_length=100, blank=True, null=True)
+
     skills_required = models.TextField(blank=True, null=True)
 
     is_active = models.BooleanField(default=True)
 
     posted_date = models.DateTimeField(auto_now_add=True)
     deadline = models.DateField(blank=True, null=True)
+    
+    required_experience = models.CharField(
+    max_length=100,
+    blank=True,
+    null=True
+)
+
+
 
     def __str__(self):
         return self.job_title
