@@ -1,6 +1,97 @@
-{% extends 'c-base.html' %}
-<title>{% block title %} Home {% endblock %}</title>
-<h2>{% block pageTitle %} Company Dashboard {% endblock %}</h2>
+{% extends "c-base.html" %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+{% block pageTitle %}Company Dashboard{% endblock %}
+
 {% block content %}
+
+<!-- ================= CARDS ================= -->
+
+<div class="cards-container">
+
+    <div class="card-box">
+        <div>
+            <h4>Total Jobs Posted</h4>
+            <h2>{{ total_jobs }}</h2>
+        </div>
+        <i class="fa-solid fa-briefcase"></i>
+    </div>
+
+    <div class="card-box">
+        <div>
+            <h4>Total Applicants</h4>
+            <h2>{{ total_applications }}</h2>
+        </div>
+        <i class="fa-solid fa-user-group"></i>
+    </div>
+
+    <div class="card-box">
+        <div>
+            <h4>Shortlisted Candidates</h4>
+            <h2>{{ shortlisted_count }}</h2>
+        </div>
+        <i class="fa-solid fa-circle-check success-icon"></i>
+    </div>
+
+</div>
+
+
+<!-- ================= ACTIVE JOBS ================= -->
+
+<h2 class="section-title">Active Positions</h2>
+
+<div class="carousel-wrapper">
+
+    <button class="carousel-btn left" onclick="scrollCarousel(-1)">
+        <i class="fa-solid fa-chevron-left"></i>
+    </button>
+
+    <div class="carousel-track" id="carouselTrack">
+
+        {% for job in jobs %}
+        <div class="job-card">
+            <h4>{{ job.job_title }}</h4>
+
+            <p>
+                <i class="fa-solid fa-location-dot"></i>
+                {{ job.location }}
+            </p>
+
+            <p>
+                <i class="fa-solid fa-users"></i>
+                {{ job.applications.count }} Applicants
+            </p>
+
+            <p>
+                <i class="fa-solid fa-briefcase"></i>
+                {{ job.get_job_type_display }}
+            </p>
+
+            <small>
+                Posted {{ job.posted_date|timesince }} ago
+            </small>
+        </div>
+        {% empty %}
+        <p>No jobs posted yet.</p>
+        {% endfor %}
+
+    </div>
+
+    <button class="carousel-btn right" onclick="scrollCarousel(1)">
+        <i class="fa-solid fa-chevron-right"></i>
+    </button>
+
+</div>
+
+<script>
+    function scrollCarousel(direction) {
+    const track = document.getElementById("carouselTrack");
+    const scrollAmount = 300;
+
+    track.scrollLeft += direction * scrollAmount;
+}
+
+</script>
 
 {% endblock %}

@@ -3,11 +3,40 @@ from django.contrib.auth.decorators import login_required
 from Company.models import CompanyProfile
 from django.contrib import messages
 from .models import JobPosting
+from .models import Application
 
 # Create your views here.
 @login_required
 def Home(request):
-    return render(request, 'dashboard.html', {'pageTitle': "Company Dashboard"})
+    try:
+        company = CompanyProfile.objects.get(user=request.user)
+    except CompanyProfile.DoesNotExist:
+        messages.error(request, "Company profile not found.")
+        return redirect("login")
+
+    # Get company jobs
+    jobs = company.job_postings.all()
+
+    # Counts
+    total_jobs = jobs.count()
+    total_applications = Application.objects.filter(
+        job_posting__company=company
+    ).count()
+
+    shortlisted_count = Application.objects.filter(
+        job_posting__company=company,
+        application_status="shortlisted"   # Make sure this matches your model
+    ).count()
+
+    context = {
+        "pageTitle": "Company Dashboard",
+        "total_jobs": total_jobs,
+        "total_applications": total_applications,
+        "shortlisted_count": shortlisted_count,
+        "jobs": jobs,  # Needed for your carousel
+    }
+
+    return render(request, "dashboard.html", context)
 
 @login_required
 def Profile(request):

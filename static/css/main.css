@@ -462,6 +462,124 @@ input::-ms-clear {
     background: var(--secondary-color);
 }
 
+/* COMPANY DASHBORD CSS */
+
+.cards-container {
+    display: flex;
+    gap: 25px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.card-box {
+    flex: 1;
+    min-width: 250px;
+    background: linear-gradient(135deg, #edecfa, #e8e7f5);
+    color: rgb(30, 25, 25);
+    padding: 25px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.card-box:hover {
+    transform: translateY(-5px);
+}
+
+.card-box h4 {
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+.card-box h2 {
+    font-size: 28px;
+    margin-top: 8px;
+}
+
+.card-box i {
+    font-size: 30px;
+}
+
+.success-icon {
+    color: #4CAF50;
+}
+
+/* ===== SECTION TITLE ===== */
+
+.section-title {
+    margin-top: 60px;
+    margin-bottom: 20px;
+}
+
+/* ===== CAROUSEL ===== */
+
+.carousel-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.carousel-track {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    scroll-behavior: smooth;
+    padding: 10px 0;
+}
+
+.carousel-track::-webkit-scrollbar {
+    display: none;
+}
+
+.job-card {
+    min-width: 260px;
+    background: #f5f6fb;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: 0.3s;
+}
+
+.job-card:hover {
+    transform: translateY(-5px);
+}
+
+.job-card h4 {
+    margin-bottom: 10px;
+}
+
+.job-card p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.job-card small {
+    color: #777;
+}
+
+.carousel-btn {
+    background: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+
+.carousel-btn.left {
+    margin-right: 10px;
+}
+
+.carousel-btn.right {
+    margin-left: 10px;
+}
+
+/* COMPANY DASHBOARD END */
 /* COMPANY APP CSS END */
 
 
