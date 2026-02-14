@@ -665,16 +665,7 @@ textarea.form-control {
     color: #000 !important;
 }
 
-/*  post job openings css */
 
-/* /* Background Section */
-/* .post-job-container {
-    max-width: 1100px;
-    margin: 60px auto;
-    padding: 50px;
-    border-radius: 25px;
-    background: linear-gradient(135deg, #8f7aea, #6c63ff);
-} */
  .post-job-container {
     max-width: 1100px;
     margin: 60px auto;
@@ -706,19 +697,7 @@ textarea.form-control {
     gap: 25px;
 }
 
-/* Input, Select, Textarea Styling */
-/* .post-job-container input,
-.post-job-container select,
-.post-job-container textarea {
-    flex: 1;
-    padding: 18px 20px;
-    border-radius: 15px;
-    border: none;
-    outline: none;
-    background: rgba(255, 255, 255, 0.85);
-    font-size: 16px;
-    color: #333;
-} */
+
  .post-job-container input,
 .post-job-container select,
 .post-job-container textarea {
@@ -732,6 +711,9 @@ textarea.form-control {
     color: #333;
 }
 
+.employment-type {
+    margin: 0px 30px;  /* left & right margin */
+}
 
 /* Textarea height */
 .post-job-container textarea {
@@ -745,30 +727,18 @@ textarea.form-control {
     color: #777;
 }
 
-/* Button */
-/* .post-btn {
-    padding: 18px 35px;
-    border-radius: 15px;
-    border: none;
-    background: linear-gradient(135deg, #b1aae4, #4b3fb3);
-    color: white;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    min-width: 16px;
-    transition: 0.3s ease;
-} */
+
 .post-btn {
     padding: 10px 20px;   /* smaller padding */
     border-radius: 12px;
     border: none;
     background: linear-gradient(135deg, #5f4bff, #4b3fb3);
     color: white;
-    font-size: 14px;      /* smaller text */
+    font-size: 14px;      
     font-weight: 500;
     cursor: pointer;
-    min-width: 220px;     /* smaller width */
-    height: 70px;         /* control height */
+    min-width: 220px;     
+    height: 70px;         
     transition: 0.3s ease;
 }
 

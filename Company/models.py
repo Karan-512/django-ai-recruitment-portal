@@ -27,7 +27,6 @@ class CompanyProfile(models.Model):
     def __str__(self):
         return self.company_name
 
-
 class JobPosting(models.Model):
 
     JOB_TYPE_CHOICES = (
@@ -45,27 +44,38 @@ class JobPosting(models.Model):
     )
 
     job_title = models.CharField(max_length=255)
-    job_description = models.TextField()
-    salary = models.CharField(max_length=100, blank=True, null=True)
     location = models.CharField(max_length=255)
-    job_type = models.CharField(max_length=50, choices=JOB_TYPE_CHOICES)
-    # required_experience = models.CharField(max_length=100)
-    required_experience = models.CharField(max_length=100, blank=True, null=True)
 
-    skills_required = models.TextField(blank=True, null=True)
+    job_description = models.TextField()
+
+    salary = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True
+    )
+
+    job_type = models.CharField(
+        max_length=50,
+        choices=JOB_TYPE_CHOICES
+    )
+
+    required_experience = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True
+    )
+
+    skills_required = models.CharField(
+        max_length=300,
+        blank=True,
+        null=True
+    )
+
+    deadline = models.DateField()
 
     is_active = models.BooleanField(default=True)
 
     posted_date = models.DateTimeField(auto_now_add=True)
-    deadline = models.DateField(blank=True, null=True)
-    
-    required_experience = models.CharField(
-    max_length=100,
-    blank=True,
-    null=True
-)
-
-
 
     def __str__(self):
         return self.job_title
