@@ -5,91 +5,70 @@
 {% block content %}
 
 
-<div class="post-job-container">
-    <h2 class="form-title"></h2>
-
-    {% comment %} {% if messages %}
-        {% for message in messages %}
-            <div class="alert-success">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endif %} {% endcomment %}
+<div class="card company-content-card mx-3 my-0 p-5">
 
     {% if messages %}
     {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show mt-3" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show mt-3" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
     {% endfor %}
-{% endif %}
+    {% endif %}
 
-    <form method="POST">
+    <form method="POST" action="{% url 'job-post' %}">
         {% csrf_token %}
 
-       
+
         <div class="form-row">
             <div class="form-group">
                 <label>Job Title</label>
-                <input type="text" name="job_title" required>
+                <input type="text" name="job_title" class="form-control" required>
             </div>
 
             <div class="form-group">
                 <label>Location</label>
-                <input type="text" name="location" required>
+                <input type="text" name="location" class="form-control" required>
             </div>
         </div>
-
-       
         <div class="form-row">
             <div class="form-group">
                 <label>Required Experience (Years)</label>
-                <input type="text" name="required_experience" placeholder="Eg: 3-5 years" required>
+                <input type="text" name="required_experience" placeholder="Eg: 3-5 years" class="form-control" required>
 
             </div>
         </div>
-
-        
         <div class="form-row three-column">
             <div class="form-group">
                 <label>Employment Type</label>
-                <select name="job_type" required>
-    <option value="">Select</option>
-    <option value="full_time">Full Time</option>
-    <option value="part_time">Part Time</option>
-    <option value="internship">Internship</option>
-    <option value="contract">Contract</option>
-    <option value="remote">Remote</option>
-</select>
-
+                <select name="job_type" class="form-control" required>
+                    <option value="">Select</option>
+                    <option value="full_time">Full Time</option>
+                    <option value="part_time">Part Time</option>
+                    <option value="internship">Internship</option>
+                    <option value="contract">Contract</option>
+                    <option value="remote">Remote</option>
+                </select>
             </div>
-
             <div class="form-group">
                 <label>Salary Range</label>
-                <input type="text" name="salary" placeholder="Eg: 3-6 LPA" required>
+                <input type="text" name="salary" placeholder="Eg: 3-6 LPA" class="form-control" required>
             </div>
-
             <div class="form-group">
                 <label>Application Deadline</label>
-                <input type="date" name="deadline" required>
+                <input type="date" name="deadline" class="form-control" required>
             </div>
         </div>
-
-        <!-- Skills -->
-        <div class="form-group">
+        <div class="form-group mb-3">
             <label>Required Skills</label>
-           
-            <input type="text" name="skills_required" placeholder="Eg: Django, React" required>
+            <input type="text" name="skills_required" placeholder="Eg: Django, React" class="form-control" required>
         </div>
-
         <div class="form-group">
             <label>Job Description</label>
-            <textarea name="job_description" rows="4" required></textarea>
+            <textarea name="job_description" rows="4" class="form-control" required></textarea>
         </div>
-
         <div class="btn-center">
-            <button type="submit" class="post-btn">Post Job</button>
+            <button type="submit" class="btn btn-primary px-4 py-2 rounded-3 c-save-btn">Post Job</button>
         </div>
 
     </form>
