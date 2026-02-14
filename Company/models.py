@@ -46,7 +46,7 @@ class JobPosting(models.Model):
     job_title = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
 
-    job_description = models.TextField()
+    job_description = models.TextField(blank=True)
 
     salary = models.CharField(
         max_length=100,

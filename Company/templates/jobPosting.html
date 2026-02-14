@@ -1,60 +1,85 @@
 {% extends 'c-base.html' %}
-
 {% block title %}Post a Job{% endblock %}
 {% block pageTitle %}Post a Job{% endblock %}
 
 {% block content %}
 
+
 <div class="post-job-container">
+    <h2 class="form-title"></h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
 
     <form method="POST">
         {% csrf_token %}
 
-        <!-- Job Title & Location -->
+       
         <div class="form-row">
-            <input type="text" name="job_title" placeholder="Job Title" required>
-            <input type="text" name="location" placeholder="Location" required>
+            <div class="form-group">
+                <label>Job Title</label>
+                <input type="text" name="job_title" required>
+            </div>
+
+            <div class="form-group">
+                <label>Location</label>
+                <input type="text" name="location" required>
+            </div>
         </div>
 
-        <!-- Experience Field -->
-        <div class="form-row single">
-            <input type="text" name="required_experience" 
-                   placeholder="Required Experience (Eg: 3-5 years)" required>
-        </div>
-
-        <!-- Employment Type & Salary -->
+       
         <div class="form-row">
-            <select name="job_type" class="employment-type" required>
-                <option value="">Employment Type</option>
-                <option value="full_time">Full-time</option>
-                <option value="part_time">Part-time</option>
-                <option value="contract">Contract</option>
-                <option value="internship">Internship</option>
-                <option value="remote">Remote</option>
-            </select>
+            <div class="form-group">
+                <label>Required Experience (Years)</label>
+                <input type="text" name="required_experience" placeholder="Eg: 3-5 years" required>
 
-            <input type="text" name="salary" placeholder="Salary Range">
+            </div>
         </div>
 
-        <!-- Deadline Datepicker -->
-        <div class="form-row single">
-            <input type="date" name="deadline" required>
+        
+        <div class="form-row three-column">
+            <div class="form-group">
+                <label>Employment Type</label>
+                <select name="job_type" required>
+    <option value="">Select</option>
+    <option value="full_time">Full Time</option>
+    <option value="part_time">Part Time</option>
+    <option value="internship">Internship</option>
+    <option value="contract">Contract</option>
+    <option value="remote">Remote</option>
+</select>
+
+            </div>
+
+            <div class="form-group">
+                <label>Salary Range</label>
+                <input type="text" name="salary" placeholder="Eg: 3-6 LPA" required>
+            </div>
+
+            <div class="form-group">
+                <label>Application Deadline</label>
+                <input type="date" name="deadline" required>
+            </div>
         </div>
 
         <!-- Skills -->
-        <div class="form-row single">
-            <input type="text" name="skills_required" 
-                   placeholder="Required Skills (Eg: Django, React)">
+        <div class="form-group">
+            <label>Required Skills</label>
+           
+            <input type="text" name="skills_required" placeholder="Eg: Django, React" required>
         </div>
 
-        <!-- Description -->
-        <div class="form-row single">
-            <textarea name="job_description" rows="4" 
-                      placeholder="Job Description" required></textarea>
+        <div class="form-group">
+            <label>Job Description</label>
+            <textarea name="job_description" rows="4" required></textarea>
         </div>
 
-        <!-- Button -->
-        <div class="form-row single center-btn">
+        <div class="btn-center">
             <button type="submit" class="post-btn">Post Job</button>
         </div>
 
