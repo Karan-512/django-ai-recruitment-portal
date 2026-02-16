@@ -4,6 +4,7 @@ from Company.models import CompanyProfile
 from django.contrib import messages
 from .models import JobPosting
 from .models import Application
+from django.utils import timezone
 
 # Create your views here.
 @login_required
@@ -17,6 +18,22 @@ def Home(request):
     # Get company jobs
     jobs = company.job_postings.all()
 
+    for job in jobs:
+        time_diff = timezone.now() - job.posted_date
+        total_seconds = int(time_diff.total_seconds())
+
+        hours = total_seconds // 3600
+        minutes = (total_seconds % 3600) // 60
+        days = hours // 24
+
+        # ✅ Auto convert
+        if hours < 24:
+            job.time_display = f"{hours}hr : {minutes:02d} min"
+        else:
+            if days == 1:
+                job.time_display = "1 day"
+            else:
+                job.time_display = f"{days} days"
     # Counts
     total_jobs = jobs.count()
     total_applications = Application.objects.filter(

@@ -69,7 +69,7 @@
             </p>
 
             <small>
-                Posted {{ job.posted_date|timesince }} ago
+                 Posted {{ job.time_display }}
             </small>
         </div>
         {% empty %}
@@ -85,13 +85,15 @@
 </div>
 
 <script>
-    function scrollCarousel(direction) {
+function scrollCarousel(direction) {
     const track = document.getElementById("carouselTrack");
-    const scrollAmount = 300;
+    const card = track.querySelector(".job-card");
 
-    track.scrollLeft += direction * scrollAmount;
+    if (!card) return;
+
+    const cardWidth = card.offsetWidth + 20; // card width + gap
+    track.scrollLeft += direction * cardWidth;
 }
-
 </script>
 
 {% endblock %}
