@@ -537,7 +537,7 @@ input::-ms-clear {
 
 .job-card {
     flex: 0 0 calc(100% / 3 - 14px);   /* show only 3 cards */
-    background: #eedff6;
+    background: color-mix(in srgb, var(--secondary-color) 25%, transparent);
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
