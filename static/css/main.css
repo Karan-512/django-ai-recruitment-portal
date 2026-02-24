@@ -529,24 +529,20 @@ input::-ms-clear {
 
 .carousel-track {
     display: flex;
-    overflow-x: auto;
     gap: 20px;
+    overflow: hidden;          /* hide extra cards */
     scroll-behavior: smooth;
-    padding: 10px 0;
-}
-
-.carousel-track::-webkit-scrollbar {
-    display: none;
+    width: 100%;
 }
 
 .job-card {
-    min-width: 260px;
-    background: #f5f6fb;
+    flex: 0 0 calc(100% / 3 - 14px);   /* show only 3 cards */
+    background: color-mix(in srgb, var(--secondary-color) 25%, transparent);
     padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    transition: 0.3s;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
+
 
 .job-card:hover {
     transform: translateY(-5px);

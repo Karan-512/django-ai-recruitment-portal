@@ -62,25 +62,25 @@
         <a href="{% url 'job_detail' job.id %}" 
           style="text-decoration:none;color:inherit;">
         <div class="job-card">
-            <h4>{{ job.job_title }}</h4>
+            <h4 class="mb-3">{{ job.job_title }}</h4>
 
             <p>
-                <i class="fa-solid fa-location-dot"></i>
+                <i class="fa-solid fa-location-dot me-3"></i>
                 {{ job.location }}
             </p>
 
             <p>
-                <i class="fa-solid fa-users"></i>
+                <i class="fa-solid fa-users me-2"></i>
                 {{ job.applications.count }} Applicants
             </p>
 
-            <p>
-                <i class="fa-solid fa-briefcase"></i>
+            <p class="mb-4">
+                <i class="fa-solid fa-briefcase me-3"></i>
                 {{ job.get_job_type_display }}
             </p>
 
             <small>
-                Posted {{ job.posted_date|timesince }} ago
+                Posted {{ job.time_display }}
             </small>
         </div>
         </a>
@@ -98,12 +98,14 @@
 
 <script>
     function scrollCarousel(direction) {
-    const track = document.getElementById("carouselTrack");
-    const scrollAmount = 300;
+        const track = document.getElementById("carouselTrack");
+        const card = track.querySelector(".job-card");
 
-    track.scrollLeft += direction * scrollAmount;
-}
+        if (!card) return;
 
+        const cardWidth = card.offsetWidth + 20; // card width + gap
+        track.scrollLeft += direction * cardWidth;
+    }
 </script>
 
 {% endblock %}
