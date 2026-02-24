@@ -24,15 +24,13 @@
         <form method="POST" action="{% url 'toggle_job_status' job.id %}">
             {% csrf_token %}
             <div class="form-check form-switch mt-1">
-                <input class="form-check-input"
-                       type="checkbox"
-                       onchange="this.form.submit()"
-                       {% if job.is_active %}checked{% endif %}>
+                <input class="form-check-input" type="checkbox" onchange="this.form.submit()" {% if job.is_active
+                    %}checked{% endif %}>
                 <label class="form-check-label">
                     {% if job.is_active %}
-                        Active
+                    Active
                     {% else %}
-                        Inactive
+                    Inactive
                     {% endif %}
                 </label>
             </div>
@@ -67,8 +65,7 @@
 
     <!-- Edit Button Bottom Right -->
     <div class="d-flex justify-content-end mt-4">
-        <a href="{% url 'edit_job' job.id %}"
-           class="btn btn-outline-primary px-4 rounded-3">
+        <a href="{% url 'edit_job' job.id %}" class="btn btn-outline-primary px-4 rounded-3">
             Edit Job
         </a>
     </div>
