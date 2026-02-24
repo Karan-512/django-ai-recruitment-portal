@@ -1,6 +1,11 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import JobSeekerProfile,Experience,Education,Project
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from Company.models import Application
+
+
 
 @login_required
 def myProfile(request):
@@ -14,7 +19,6 @@ def myProfile(request):
             user.first_name = request.POST.get("first_name", user.first_name)
             user.last_name = request.POST.get("last_name", user.last_name)
             user.email = request.POST.get("email", user.email)
-           
             user.save()
 
         elif card_type == "phone":
@@ -22,7 +26,6 @@ def myProfile(request):
             profile.save()
 
         elif card_type == "resume" and 'resume' in request.FILES:
-            
             profile.resume = request.FILES['resume']
             profile.save()
 
@@ -54,7 +57,7 @@ def myProfile(request):
             title=request.POST.get("title"),
             description=request.POST.get("description", ""),
             technologies_used=request.POST.get("technologies_used", ""),
-            project_link=request.POST.get("project_link", ""),  
+            project_link=request.POST.get("project_link", ""),
             )
         elif card_type == "project_delete":
             proj_id = request.POST.get("proj_id")
@@ -73,20 +76,20 @@ def myProfile(request):
                 profile=profile,
                 degree=request.POST.get("degree"),
                 institution=request.POST.get("institution"),
-                field_of_study=request.POST.get("field_of_study", ""), 
+                field_of_study=request.POST.get("field_of_study", ""),
                 start_year=request.POST.get("start_year"),
                 end_year=request.POST.get("end_year") or None,
             )
         elif card_type == "education_delete":
             edu_id = request.POST.get("edu_id")
             Education.objects.filter(id=edu_id, profile=profile).delete()
-            
+
         elif card_type == "education_update":
             edu_id = request.POST.get("edu_id")
             edu = get_object_or_404(Education, id=edu_id, profile=profile)
             edu.degree = request.POST.get("degree", edu.degree)
             edu.institution = request.POST.get("institution", edu.institution)
-            edu.field_of_study = request.POST.get("field_of_study", edu.field_of_study) 
+            edu.field_of_study = request.POST.get("field_of_study", edu.field_of_study)
             edu.start_year = request.POST.get("start_year", edu.start_year)
             edu.end_year = request.POST.get("end_year") or edu.end_year
             edu.save()
@@ -95,15 +98,58 @@ def myProfile(request):
 
     context = {
             'user': user,
-            'profile': profile
+            'profile': profile,
+            'pageTitle': 'My Profile'
             }
     return render(request, 'myProfile.html', context)
 
-def allJobs(request):
-    pass
+def Home(request):
+    return render(request, 'home.html', {'pageTitle': 'Home'})
 
 def savedJobs(request):
     pass
 
 def jobRecommendations(request):
     pass
+
+
+def job_detail_page(request, pk):
+    return render(request, "job_detail.html", {"job_id": pk, 'pageTitle': 'Home'})
+
+@api_view(['GET'])
+def dashboard_stats(request):
+
+    user = request.user
+
+    try:
+        profile = JobSeekerProfile.objects.get(user=user)
+    except JobSeekerProfile.DoesNotExist:
+        return Response({"error": "Profile not found"}, status=404)
+
+#   Applied Count
+
+    applications = Application.objects.filter(
+        job_seeker=profile,
+        is_active=True
+    )
+
+    applied_count = applications.count()
+#   Profile Completion Card
+
+    fields = [
+        request.user.first_name,
+        request.user.last_name,
+        request.user.email,
+        profile.phone,
+        profile.resume,
+        profile.skills,
+    ]
+
+    filled_fields = sum(1 for field in fields if field)
+    print(len(fields))
+    completion_percentage = int((filled_fields / len(fields)) * 100)
+    print(completion_percentage)
+    return Response({
+        "applied_jobs": applied_count,
+        "profile_completion": completion_percentage
+    })

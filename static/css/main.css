@@ -530,19 +530,20 @@ input::-ms-clear {
 .carousel-track {
     display: flex;
     gap: 20px;
-    overflow: hidden;          /* hide extra cards */
+    overflow: hidden;
+    /* hide extra cards */
     scroll-behavior: smooth;
     width: 100%;
 }
 
 .job-card {
-    flex: 0 0 calc(100% / 3 - 14px);   /* show only 3 cards */
+    flex: 0 0 calc(100% / 3 - 14px);
+    /* show only 3 cards */
     background: color-mix(in srgb, var(--secondary-color) 25%, transparent);
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
-
 
 .job-card:hover {
     transform: translateY(-5px);
@@ -582,6 +583,28 @@ input::-ms-clear {
 
 /* COMPANY DASHBOARD END */
 /* COMPANY APP CSS END */
+
+
+
+/* JOB SEEKER HOME */
+.js-kpi-cards {
+    background-color: white;
+    color: var(--dark-text);
+}
+
+.js-kpi-cards i {
+    color: var(--primary-color);
+}
+
+.js-breadcrumb a{
+    text-decoration: none;
+    color: var(--sub-heading);
+    size: 1.1em;
+}
+
+/* JOB SEEKER HOME END */
+
+
 
 
 @media(max-width:992px) {

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from Company.models import CompanyProfile
 from django.contrib import messages
@@ -7,6 +7,15 @@ from .models import Application
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect, get_object_or_404
 from django.utils import timezone
+
+from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.core.paginator import Paginator
+from .models import JobPosting
+from .serializers import JobPostingSerializer
+
+
 
 # Create your views here.
 @login_required
@@ -173,28 +182,6 @@ def JobDetail(request, job_id):
 def ViewApplications(request):
     return render(request, 'applications.html', {'pageTitle': "View Applications"})
 
-# @login_required
-# def EditJob(request, job_id):
-#     company = CompanyProfile.objects.get(user=request.user)
-
-#     job = get_object_or_404(JobPosting, id=job_id, company=company)
-
-#     if request.method == "POST":
-#         job.job_title = request.POST.get("job_title")
-#         job.job_description = request.POST.get("job_description")
-#         job.salary = request.POST.get("salary")
-#         job.location = request.POST.get("location")
-#         job.job_type = request.POST.get("job_type")
-#         job.required_experience = request.POST.get("required_experience")
-#         job.skills_required = request.POST.get("skills_required")
-#         job.deadline = request.POST.get("deadline")
-
-#         job.save()
-#         messages.success(request, "Job updated successfully.")
-#         return redirect("company-home")
-
-#     return render(request, "edit_job.html", {"job": job})
-
 @login_required
 def ToggleJobStatus(request, job_id):
     company = CompanyProfile.objects.get(user=request.user)
@@ -205,5 +192,33 @@ def ToggleJobStatus(request, job_id):
 
     return redirect("job_detail", job_id=job.id)
 
+@api_view(['GET'])
+def get_jobs(request):
 
+    jobs = JobPosting.objects.select_related("company").all().order_by('-posted_date')
+    search = request.GET.get("search")
+    location = request.GET.get("location")
+    job_type = request.GET.get("job_type")
 
+    if search:
+        jobs = jobs.filter(job_title__icontains=search)
+
+    if location:
+        jobs = jobs.filter(location__icontains=location)
+
+    if job_type:
+        jobs = jobs.filter(job_type__iexact=job_type)
+
+    serializer = JobPostingSerializer(jobs, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def get_job_detail(request, pk):
+    job = get_object_or_404(
+        JobPosting.objects.select_related('company'),
+        pk=pk
+    )
+
+    serializer = JobPostingSerializer(job)
+    print(serializer.data)
+    return Response(serializer.data)

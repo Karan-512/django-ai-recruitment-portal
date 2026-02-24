@@ -9,7 +9,7 @@ class JobSeekerProfile(models.Model):
         related_name="job_seeker_profile"
     )
 
-    phone = models.CharField(max_length=20, blank=True)
+    phone = models.CharField(max_length=20, blank=True, null=True)
 
     skills = models.TextField(
         blank=True,
