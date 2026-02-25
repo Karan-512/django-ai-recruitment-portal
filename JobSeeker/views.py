@@ -1,8 +1,12 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required
+
+from JobSeeker.serializers import ApplicationSerializer
 from .models import JobSeekerProfile,Experience,Education,Project
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
 from Company.models import Application
 
 
@@ -109,8 +113,8 @@ def Home(request):
 def savedJobs(request):
     pass
 
-def jobRecommendations(request):
-    pass
+def MyApplications(request):
+    return render(request, "my_applications.html", {'pageTitle' : 'My Applications'})
 
 
 def job_detail_page(request, pk):
@@ -153,3 +157,17 @@ def dashboard_stats(request):
         "applied_jobs": applied_count,
         "profile_completion": completion_percentage
     })
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_my_applications(request):
+
+    applications = Application.objects.filter(
+        job_seeker__user=request.user,
+        is_active=True
+    ).select_related("job_posting", "job_posting__company").order_by("-applied_date")
+
+    serializer = ApplicationSerializer(applications, many=True)
+    # print(serializer.data)
+    return Response(serializer.data)

@@ -1,5 +1,101 @@
 {% extends 'js_base.html' %}
-<title>{% block title %} My Applications  {% endblock %}</title>
+<title>{% block title %} My Applications {% endblock %}</title>
 <h3>{% block pageTitle %} My Applications {% endblock %}</h3>
 {% block content %}
+<div class="my-applications-container">
+    <div class="table-box">
+        <table>
+            <thead>
+                <tr>
+                    <th>Job Title</th>
+                    <th>Company</th>
+                    <th>Location</th>
+                    <th>Applied On</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="myApplicationsBody">
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        fetchApplications();
+    });
+
+    async function fetchApplications() {
+        try {
+            const response = await fetch("/job-seeker/api/my-applications/", {
+                method: "GET",
+                credentials: "include"
+            });
+
+            const data = await response.json();
+            renderTable(data);
+
+        } catch (error) {
+            console.error("Error fetching applications:", error);
+        }
+    }
+
+    function renderTable(applications) {
+
+        const tableBody = document.getElementById("myApplicationsBody");
+        tableBody.innerHTML = "";
+
+        applications.forEach(app => {
+
+            const row = `
+            <tr>
+                <td>${app.job_title}</td>
+                <td>${app.company_name}</td>
+                <td>${app.location}</td>
+                <td>${formatDate(app.applied_date)}</td>
+                <td>
+                    <span class="status-badge">
+                        ${getStatusBadge(app.application_status)}
+                    </span>
+                </td>
+                <td>
+                    <button class="view-btn"
+                    onclick="window.location.href='/job-seeker/job-detail/${app.id}/'">
+                        View Details
+                    </button>
+                </td>
+            </tr>
+        `;
+
+            tableBody.innerHTML += row;
+        });
+    }
+
+    function getStatusBadge(status) {
+
+        const statusClasses = {
+            Applied: "badge-applied",
+            Reviewing: "badge-reviewing",
+            Shortlisted: "badge-shortlisted",
+            Rejected: "badge-rejected",
+            Accepted: "badge-accepted"
+        };
+
+        const cssClass = statusClasses[status] || "badge-default";
+
+        return `<span class="status-badge ${cssClass}">
+                ${status.charAt(0) + status.slice(1)}
+            </span>`;
+    }
+
+    function formatDate(dateStr) {
+        const date = new Date(dateStr);
+        return date.toLocaleDateString();
+    }
+
+</script>
 {% endblock %}

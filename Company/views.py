@@ -209,7 +209,8 @@ def view_applications(request):
 
     return render(request, 'applications.html', {
         'jobs': jobs,
-        'today': today
+        'today': today,
+        'pageTitle': 'View Applications'
     })
 
 
@@ -247,8 +248,10 @@ def job_applicants_api(request, job_id):
     from .serializers import ApplicationSerializer
     serializer = ApplicationSerializer(applications, many=True)
     return Response(serializer.data)
-def ViewApplications(request):
-    return render(request, 'applications.html', {'pageTitle': "View Applications"})
+
+
+# def ViewApplications(request):
+#     return render(request, 'applications.html', {'pageTitle': "View Applications"})
 
 @login_required
 def ToggleJobStatus(request, job_id):

@@ -3,13 +3,14 @@
 <h3>{% block pageTitle %} Job Detail{% endblock %}</h3>
 {% block content %}
 <div class="container-fluid py-4">
-    <div class="d-flex justify-content-start col-12 js-breadcrumb mb-5">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'js-home' %}"> <i class="fi fi-rr-home me-2"></i>Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page"><a href="#" id="job-breadcrumb"></a></li>
-            </ol>
-        </nav>
+    <div class="col-12 d-flex flex-row justify-content-start mb-5">
+        <a href="javascript:history.back()" style="text-decoration: none; color: #64748B;">
+            <div class="row d-fle flex-row justify-content-start align-items-center">
+                <span><i class="fa-regular fa-circle-left fs-4 me-3"></i>
+                    <span class="fs-4">Back</span>
+                </span>
+            </div>
+        </a>
     </div>
     <div class="row g-4">
 
@@ -28,10 +29,10 @@
 
                 <div class="mb-3 text-muted">
                     <div class="mb-2">
-                    <i class="fi fi-sr-marker me-2"></i><span id="job-location"></span>
+                        <i class="fi fi-sr-marker me-2"></i><span id="job-location"></span>
                     </div>
                     <div class="mb-2">
-                    <i class="fi fi-rr-employee-man-alt me-2"></i><span id="job-type"></span>
+                        <i class="fi fi-rr-employee-man-alt me-2"></i><span id="job-type"></span>
                     </div>
                     <i class="fi fi-rr-briefcase me-2"></i><span id="job-experience"></span>
                 </div>
@@ -71,35 +72,34 @@
 
     document.addEventListener("DOMContentLoaded", function () {
 
-        const jobId = {{ job_id }};
+        const jobId = "{{ job_id }}";
 
-    async function fetchJobDetail() {
-        try {
-            const response = await fetch(`/company/api/jobs/${jobId}/`);
-            const job = await response.json();
+        async function fetchJobDetail() {
+            try {
+                const response = await fetch(`/company/api/jobs/${jobId}/`);
+                const job = await response.json();
 
-            // Fill Job Details
-            document.getElementById("job-breadcrumb").innerText = job.job_title;
-            document.getElementById("job-title").innerText = job.job_title;
-            document.getElementById("job-location").innerText = job.location;
-            document.getElementById("job-type").innerText = job.job_type;
-            document.getElementById("job-experience").innerText = job.required_experience;
-            document.getElementById("job-description").innerText = job.job_description;
-            document.getElementById("job-salary").innerText = job.salary;
+                // Fill Job Details
+                document.getElementById("job-title").innerText = job.job_title;
+                document.getElementById("job-location").innerText = job.location;
+                document.getElementById("job-type").innerText = job.job_type;
+                document.getElementById("job-experience").innerText = job.required_experience;
+                document.getElementById("job-description").innerText = job.job_description;
+                document.getElementById("job-salary").innerText = job.salary;
 
-            // Fill Company Details
-            document.getElementById("company-name").innerText = job.company.company_name;
-            document.getElementById("company-website").innerText = job.company.company_website;
-            document.getElementById("company-email").innerText = job.company.user.email;
-            document.getElementById("company-description").innerText = job.company.description;
+                // Fill Company Details
+                document.getElementById("company-name").innerText = job.company.company_name;
+                document.getElementById("company-website").innerText = job.company.company_website;
+                document.getElementById("company-email").innerText = job.company.user.email;
+                document.getElementById("company-description").innerText = job.company.description;
 
-        } catch (error) {
-            console.error("Error loading job details:", error);
+            } catch (error) {
+                console.error("Error loading job details:", error);
+            }
         }
-    }
 
-    fetchJobDetail();
-});
+        fetchJobDetail();
+    });
 
 </script>
 {% endblock %}

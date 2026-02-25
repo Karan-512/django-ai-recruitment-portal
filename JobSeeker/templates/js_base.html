@@ -78,7 +78,7 @@
                         </li>
                         <hr class="text-light px-5 mx-5">
                         <li class="company-nav-item  {% if pageTitle == 'My Applications' %} active {% endif %}">
-                            <a class="fs-5 m-5 pb-5" href="#">My Applications</a>
+                            <a class="fs-5 m-5 pb-5" href="{% url 'js-my-applications' %}">My Applications</a>
                         </li>
                         <hr class="text-light px-5 mx-5">
                         <li class="company-nav-item  {% if pageTitle == 'My Applications' %} active {% endif %} mb-4">
@@ -126,11 +126,11 @@
                     </li>
 
                     <li
-                        class="menu-item p-3  {% if pageTitle == 'View Applications' %} active {% endif %} d-flex flex-column align-items-center justify-content-center">
+                        class="menu-item p-3  {% if pageTitle == 'My Applications' %} active {% endif %} d-flex flex-column align-items-center justify-content-center">
                         <div class="col-10">
-                            <a href="#" class="d-flex align-items-center fs-5">
+                            <a href="{% url 'js-my-applications' %}" class="d-flex align-items-center fs-5">
                                 <i class="fi fi-sr-stars me-3 fs-3"></i>
-                                <span>View Applications</span>
+                                <span>My Applications</span>
                             </a>
                         </div>
                     </li>
