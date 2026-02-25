@@ -581,6 +581,133 @@ input::-ms-clear {
 }
 
 /* COMPANY DASHBOARD END */
+/* application page css */
+
+.job-container {
+    background: #f5f2ff;
+    padding: 30px;
+    border-radius: 15px;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    gap: 15px;
+}
+
+.tab {
+    padding: 10px 20px;
+    background-color: #dcd6f7;
+    color: #5a4fcf;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+}
+.tab:hover {
+    background-color: #5a4fcf;
+}
+
+.tab.active {
+    background-color: #5a4fcf;
+    color: white;
+}
+
+/* Table */
+.table-box {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #f3f0ff;
+}
+
+th {
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    color: #444;
+}
+
+td {
+    padding: 12px;
+    border-top: 1px solid #eee;
+}
+
+/* Status */
+.status {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.status.live {
+    background: #d4f8e8;
+    color: #1c9e63;
+}
+
+.status.closed {
+    background: #ffdede;
+    color: #d63031;
+}
+
+.status.expired {
+    background: #ffe8c7;
+    color: #e67e22;
+}
+
+/* Button */
+.view-btn {
+    background: #5a4fcf;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.view-btn:hover {
+    background: #463bb3;
+}
+
+.no-data {
+    text-align: center;
+    padding: 20px;
+    color: #888;
+}
+
+.status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.status.live {
+    background-color: #e6f9ed;
+    color: #1e7e34;
+}
+
+.status.closed {
+    background-color: #fdecea;
+    color: #b02a37;
+}
+
+.status.expired {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+
 /* COMPANY APP CSS END */
 
 

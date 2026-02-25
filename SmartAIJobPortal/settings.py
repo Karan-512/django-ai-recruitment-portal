@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Authentication',
     'JobSeeker',
-    'Company'
+    'Company',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [

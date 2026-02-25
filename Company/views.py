@@ -1,10 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from Company.models import CompanyProfile
 from django.contrib import messages
 from .models import JobPosting
 from .models import Application
 from django.utils import timezone
+from django.db.models import Count
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
 
 # Create your views here.
 @login_required
@@ -109,6 +114,67 @@ def jobPosting(request):
     })
 
 
+
 @login_required
-def ViewApplications(request):
-    return render(request, 'applications.html', {'pageTitle': "View Applications"})
+def view_applications(request):
+    try:
+        company_profile = CompanyProfile.objects.get(user=request.user)
+    except CompanyProfile.DoesNotExist:
+        return redirect('company-profile')
+
+    status = request.GET.get('status', 'all')
+    today = timezone.now().date()
+
+    jobs = JobPosting.objects.filter(company=company_profile)
+
+    if status == 'live':
+        jobs = jobs.filter(is_active=True, deadline__gte=today)
+
+    elif status == 'closed':
+        jobs = jobs.filter(is_active=False)
+
+    elif status == 'expired':
+        jobs = jobs.filter(deadline__lt=today)
+
+    jobs = jobs.annotate(applicant_count=Count('applications')).order_by('-posted_date')
+
+    return render(request, 'applications.html', {
+        'jobs': jobs,
+        'today': today
+    })
+
+
+@login_required
+def job_applicants(request, job_id):
+    company = get_object_or_404(CompanyProfile, user=request.user)
+
+    job = get_object_or_404(JobPosting, id=job_id, company=company)
+
+    applications = Application.objects.filter(job_posting=job)
+
+    return render(request, 'job_applicants.html', {
+        'job': job,
+        'applications': applications,
+        'pageTitle': 'View Applications'
+    })
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def job_list_api(request):
+    company = CompanyProfile.objects.get(user=request.user)
+    jobs = JobPosting.objects.filter(company=company)
+
+    from .serializers import JobPostingSerializer
+    serializer = JobPostingSerializer(jobs, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def job_applicants_api(request, job_id):
+    job = JobPosting.objects.get(id=job_id)
+    applications = Application.objects.filter(job_posting=job)
+
+    from .serializers import ApplicationSerializer
+    serializer = ApplicationSerializer(applications, many=True)
+    return Response(serializer.data)

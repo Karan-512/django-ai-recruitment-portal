@@ -113,6 +113,8 @@ class Application(models.Model):
 
     cover_letter = models.TextField(blank=True, null=True)
 
+    created_at = models.DateTimeField(auto_now_add=True)
+
     class Meta:
         unique_together = ('job_seeker', 'job_posting')
 

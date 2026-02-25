@@ -1,6 +1,71 @@
 {% extends 'c-base.html' %}
-<title>{% block title %} Profile {% endblock %}</title>
-<h2>{% block pageTitle %} Applications {% endblock %}</h2>
+{% load static %}
+{% block title %}Applications{% endblock %}
+{% block pageTitle %}Applications{% endblock %}
+
 {% block content %}
+<div class="job-container">
+
+    <!-- Filter Tabs -->
+    <div class="tabs">
+        <a href="?status=all" class="tab active">All</a>
+        <a href="?status=live" class="tab">Live</a>
+        <a href="?status=closed" class="tab">Closed</a>
+        <a href="?status=expired" class="tab">Expired</a>
+    </div>
+
+    <div class="table-box">
+        <table>
+            <thead>
+                <tr>
+                    <th>Job Title</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Applicants</th>
+                    <th>Posted</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for job in jobs %}
+                <tr>
+                    <td>{{ job.job_title }}</td>
+                    <td>{{ job.location }}</td>
+
+                    <!-- Status -->
+                    <td>
+                        {% if job.deadline and job.deadline < today %} <span class="status expired">Expired</span>
+
+                            {% elif job.is_active == False %}
+                            <span class="status closed">Closed</span>
+
+                            {% else %}
+                            <span class="status live">Live</span>
+                            {% endif %}
+                    </td>
+
+                    <!-- Applicant Count -->
+                    <td>{{ job.application_set.count }}</td>
+
+                    <td>{{ job.posted_date|date:"M d, Y" }}</td>
+
+                    <td>
+                        <a href="{% url 'job_applicants' job.id %}" class="view-btn">
+                            View Applicants
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="no-data">
+                        No jobs posted yet.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 
 {% endblock %}
