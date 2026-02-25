@@ -1,0 +1,271 @@
+{% extends 'js_base.html' %}
+<title>{% block title %} Home {% endblock %}</title>
+<h3>{% block pageTitle %} Home {% endblock %}</h3>
+{% block content %}
+<!-- KPI Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 rounded-4 p-3 js-kpi-cards">
+            <div class="card-body d-flex align-items-center">
+                <div class="bg-primary bg-opacity-10 p-2 rounded-3 me-3">
+                    <i class="fi fi-sr-briefcase fs-4 px-2"></i>
+                </div>
+                <div>
+                    <h4 class="mb-0 fw-bold" id="applied-count">0</h4>
+                    <small class="text-muted">Applied Jobs</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 rounded-4 p-3 js-kpi-cards">
+            <div class="card-body d-flex align-items-center">
+                <div class="bg-primary bg-opacity-10 p-2 rounded-3 me-3">
+                    <i class="fi fi-sr-bookmark fs-4 px-2"></i>
+                </div>
+                <div>
+                    <h4 class="mb-0 fw-bold">5</h4>
+                    <small class="text-muted">Saved Jobs</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="col-md-3">
+        <div class="card shadow-sm border-0 rounded-4 p-3 js-kpi-cards">
+            <div class="card-body d-flex align-items-center">
+                <div class="bg-primary bg-opacity-10 p-2 rounded-3 me-3">
+                    <i class="fi fi-sr-calendar-check fs-4 px-2"></i>
+                </div>
+                <div>
+                    <h4 class="mb-0 fw-bold">2</h4>
+                    <small class="text-muted">Interviews</small>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 rounded-4 p-3 js-kpi-cards">
+            <div class="card-body d-flex align-items-center">
+                <div class="bg-primary bg-opacity-10 p-2 rounded-3 me-3">
+                    <i class="fi fi-sr-badge-check fs-4 px-2"></i>
+                </div>
+                <div>
+                    <h4 class="mb-0 fw-bold" id="profile-completion">0%</h4>
+                    <small class="text-muted">Profile</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Filters and Search bar -->
+<!-- SEARCH & FILTER BAR -->
+<div class="card shadow-sm border-0 rounded-4 mb-4">
+    <div class="card-body">
+        <form class="row g-3 align-items-center">
+
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-text bg-white">
+                        <i class="fi fi-rr-search text-primary"></i>
+                    </span>
+                    <input type="text" id="search-input" class="form-control" placeholder="Search jobs...">
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-text bg-white">
+                        <i class="fi fi-rr-marker text-primary"></i>
+                    </span>
+                    <input type="text" id="location-filter" class="form-control" placeholder="Location">
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <select id="job-type-filter" class="form-select py-3">
+                    <option value="">All Job Types</option>
+                    <option value="Full Time">Full Time</option>
+                    <option value="Part Time">Part Time</option>
+                    <option value="Internship">Internship</option>
+                    <option value="Contract">Contract</option>
+                    <option value="Remote">Remote</option>
+                </select>
+            </div>
+
+
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100 py-2 fs-6">
+                    Search
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!-- Available Jobs -->
+
+<h4 class="fw-bold mb-3 mt-5">Available Jobs</h4>
+<hr style="color: #6B7280;">
+
+<div class="row g-4" id="job-container">
+
+</div>
+
+<!-- Pagination -->
+<div class="d-flex justify-content-center mt-4">
+    <nav>
+        <ul class="pagination" id="pagination-container"></ul>
+    </nav>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const jobContainer = document.getElementById("job-container");
+        const form = document.querySelector("form");
+
+        async function fetchJobs(filters = {}) {
+
+            let url = "{% url 'get-jobs' %}?";
+
+            if (filters.search) {
+                url += `search=${filters.search}&`;
+            }
+
+            if (filters.location) {
+                url += `location=${filters.location}&`;
+            }
+
+            if (filters.job_type) {
+                url += `job_type=${filters.job_type}&`;
+            }
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                renderJobs(data);
+
+            } catch (error) {
+                console.error("Error fetching jobs:", error);
+            }
+        }
+
+        function renderJobs(jobs) {
+
+            jobContainer.innerHTML = "";
+
+            if (!jobs || jobs.length === 0) {
+                jobContainer.innerHTML = `
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    No jobs found.
+                </div>
+            </div>
+        `;
+                return;
+            }
+
+            jobs.forEach(job => {
+
+                jobContainer.innerHTML += `
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card shadow-sm border-0 rounded-4 h-100 p-4">
+
+                <!-- Top Row -->
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h5 class="fw-bold mb-0">${job.job_title}</h5>
+                    <span class="badge bg-primary-subtle text-primary fw-semibold px-3 py-2 rounded-3">
+                        ${job.salary}
+                    </span>
+                </div>
+
+                <!-- Company -->
+                <div class="d-flex align-items-center text-muted mb-2">
+                    <i class="fi fi-rr-building me-2 text-primary"></i>
+                    <span>${job.company.company_name || "Company Name"}</span>
+                </div>
+
+                <!--Job Type-->
+                <div class="d-flex align-items-center text-muted mb-2">
+                    <i class="fi fi-rr-employee-man-alt me-2 text-primary"></i>
+                    <span>${job.job_type}</span>
+                </div>
+
+
+                <!-- Location -->
+                <div class="d-flex align-items-center text-muted mb-2">
+                    <i class="fi fi-rr-marker me-2 text-primary"></i>
+                    <span>${job.location}</span>
+                </div>
+
+                <!-- Experience -->
+                <div class="d-flex align-items-center text-muted mb-3">
+                    <i class="fi fi-rr-briefcase me-2 text-primary"></i>
+                    <span>${job.required_experience}</span>
+                </div>
+
+                <hr class="my-2">
+
+                <!-- Description -->
+                <p class="text-muted small flex-grow-1 mt-2">
+                    ${job.job_description.substring(0, 100)}...
+                </p>
+
+                <!-- Buttons -->
+                <div class="d-flex gap-2 mt-3">
+                    <button class="btn btn-primary w-50"
+                    onclick="window.location.href='/job-seeker/job-detail/${job.id}/'">
+                        View Details
+                    </button>
+                    <button class="btn btn-outline-secondary w-50">
+                        <i class="fi fi-sr-bookmark me-1"></i> Save Job
+                    </button>
+                </div>
+
+            </div>
+        </div>
+        `;
+            });
+        }
+
+        // Filter handling on button click
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const filters = {
+                search: document.getElementById("search-input").value,
+                location: document.getElementById("location-filter").value,
+                job_type: document.getElementById("job-type-filter").value
+            };
+
+            fetchJobs(filters);
+        });
+
+        async function fetchDashboardStats() {
+
+            try {
+                const response = await fetch("/job-seeker/api/dashboard-stats/");
+                const data = await response.json();
+                document.getElementById("applied-count").innerText =
+                    data.applied_jobs;
+
+                document.getElementById("profile-completion").innerText =
+                    data.profile_completion + "%";
+
+            } catch (error) {
+                console.error("Error fetching dashboard stats:", error);
+            }
+        }
+        fetchJobs();
+        fetchDashboardStats();
+    });
+
+</script>
+{% endblock %}

@@ -7,8 +7,17 @@
 {% block content %}
 
 <!-- ================= CARDS ================= -->
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+{% endif %}
 
 <div class="cards-container">
+    
 
     <div class="card-box">
         <div>
@@ -50,6 +59,8 @@
     <div class="carousel-track" id="carouselTrack">
 
         {% for job in jobs %}
+        <a href="{% url 'job_detail' job.id %}" 
+          style="text-decoration:none;color:inherit;">
         <div class="job-card">
             <h4 class="mb-3">{{ job.job_title }}</h4>
 
@@ -72,6 +83,7 @@
                 Posted {{ job.time_display }}
             </small>
         </div>
+        </a>
         {% empty %}
         <p>No jobs posted yet.</p>
         {% endfor %}

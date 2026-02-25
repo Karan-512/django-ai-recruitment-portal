@@ -1,21 +1,23 @@
 from rest_framework import serializers
 from .models import JobPosting, Application
+from .models import JobPosting, CompanyProfile
+from Authentication.serializers import UserSerializer
+
+class CompanyProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    class Meta:
+        model = CompanyProfile
+        fields = "__all__"
 
 
 class JobPostingSerializer(serializers.ModelSerializer):
     applicant_count = serializers.IntegerField(source='application_set.count', read_only=True)
+    company = CompanyProfileSerializer(read_only=True)
 
     class Meta:
         model = JobPosting
-        fields = [
-            'id',
-            'job_title',
-            'location',
-            'posted_date',
-            'deadline',
-            'is_closed',
-            'applicant_count'
-        ]
+        fields = '__all__'
+        
 
 
 class ApplicationSerializer(serializers.ModelSerializer):
@@ -29,3 +31,8 @@ class ApplicationSerializer(serializers.ModelSerializer):
             'resume',
             'applied_date'
         ]
+
+
+
+
+

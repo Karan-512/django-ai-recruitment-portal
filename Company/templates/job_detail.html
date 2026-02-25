@@ -1,0 +1,75 @@
+{% extends "c-base.html" %}
+{% block title %}Job Details{% endblock %}
+
+{% block content %}
+
+<div class="card job-details-card mx-3 my-0 p-5">
+
+    <!-- Top Section: Breadcrumbs + Toggle -->
+    <div class="d-flex justify-content-between align-items-start mb-3">
+
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'company-home' %}">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    Job Details
+                </li>
+            </ol>
+        </nav>
+
+        <!-- Active/Inactive Toggle -->
+        <form method="POST" action="{% url 'toggle_job_status' job.id %}">
+            {% csrf_token %}
+            <div class="form-check form-switch mt-1">
+                <input class="form-check-input" type="checkbox" onchange="this.form.submit()" {% if job.is_active
+                    %}checked{% endif %}>
+                <label class="form-check-label">
+                    {% if job.is_active %}
+                    Active
+                    {% else %}
+                    Inactive
+                    {% endif %}
+                </label>
+            </div>
+        </form>
+
+    </div>
+
+    <!-- Job Title -->
+    <h2 class="mb-3">{{ job.job_title }}</h2>
+
+    <hr>
+
+    <!-- Job Details -->
+    <div class="row">
+
+        <div class="col-md-6">
+            <p><strong>Location:</strong> {{ job.location|default:"Not specified" }}</p>
+            <p><strong>Required Experience (Years):</strong> {{ job.required_experience }}</p>
+            <p><strong>Employment Type:</strong> {{ job.job_type }}</p>
+            <p><strong>Salary Range:</strong> {{ job.salary|default:"Negotiable" }}</p>
+            <p><strong>Application Deadline:</strong> {{ job.deadline|date:"F d, Y" }}</p>
+            <p><strong>Required Skills:</strong> {{ job.skills_required }}</p>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <!-- Job Description -->
+    <h4>Job Description</h4>
+    <p>{{ job.job_description|linebreaks }}</p>
+
+    <!-- Edit Button Bottom Right -->
+    <div class="d-flex justify-content-end mt-4">
+        <a href="{% url 'edit_job' job.id %}" class="btn btn-outline-primary px-4 rounded-3">
+            Edit Job
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}
