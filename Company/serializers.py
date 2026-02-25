@@ -1,9 +1,10 @@
-
 from rest_framework import serializers
 from .models import JobPosting, CompanyProfile
+from Authentication.serializers import UserSerializer
 
 
 class CompanyProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
     class Meta:
         model = CompanyProfile
         fields = "__all__"

@@ -86,12 +86,11 @@
             document.getElementById("job-experience").innerText = job.required_experience;
             document.getElementById("job-description").innerText = job.job_description;
             document.getElementById("job-salary").innerText = job.salary;
-            
 
             // Fill Company Details
             document.getElementById("company-name").innerText = job.company.company_name;
-            document.getElementById("company-website").innerText = job.company.website;
-            document.getElementById("company-email").innerText = job.company.email;
+            document.getElementById("company-website").innerText = job.company.company_website;
+            document.getElementById("company-email").innerText = job.company.user.email;
             document.getElementById("company-description").innerText = job.company.description;
 
         } catch (error) {
