@@ -8,16 +8,16 @@
 
 <!-- ================= CARDS ================= -->
 {% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-success alert-dismissible fade show">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    {% endfor %}
+{% for message in messages %}
+<div class="alert alert-success alert-dismissible fade show">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+{% endfor %}
 {% endif %}
 
 <div class="cards-container">
-    
+
 
     <div class="card-box">
         <div>
@@ -59,30 +59,29 @@
     <div class="carousel-track" id="carouselTrack">
 
         {% for job in jobs %}
-        <a href="{% url 'job_detail' job.id %}" 
-          style="text-decoration:none;color:inherit;">
-        <div class="job-card">
-            <h4 class="mb-3">{{ job.job_title }}</h4>
+        <a href="{% url 'job_detail' job.id %}" style="text-decoration:none;color:inherit;">
+            <div class="job-card">
+                <h4 class="mb-3">{{ job.job_title }}</h4>
 
-            <p>
-                <i class="fa-solid fa-location-dot me-3"></i>
-                {{ job.location }}
-            </p>
+                <p>
+                    <i class="fa-solid fa-location-dot me-3"></i>
+                    {{ job.location }}
+                </p>
 
-            <p>
-                <i class="fa-solid fa-users me-2"></i>
-                {{ job.applications.count }} Applicants
-            </p>
+                <p>
+                    <i class="fa-solid fa-users me-2"></i>
+                    {{ job.applications.count }} Applicants
+                </p>
 
-            <p class="mb-4">
-                <i class="fa-solid fa-briefcase me-3"></i>
-                {{ job.get_job_type_display }}
-            </p>
+                <p class="mb-4">
+                    <i class="fa-solid fa-briefcase me-3"></i>
+                    {{ job.get_job_type_display }}
+                </p>
 
-            <small>
-                Posted {{ job.time_display }}
-            </small>
-        </div>
+                <small>
+                    Posted {{ job.time_display }}
+                </small>
+            </div>
         </a>
         {% empty %}
         <p>No jobs posted yet.</p>
@@ -98,14 +97,16 @@
 
 <script>
     function scrollCarousel(direction) {
-        const track = document.getElementById("carouselTrack");
-        const card = track.querySelector(".job-card");
+    const track = document.getElementById("carouselTrack");
+    const cards = track.querySelectorAll(".job-card");
 
-        if (!card) return;
+    if (!cards.length) return;
 
-        const cardWidth = card.offsetWidth + 20; // card width + gap
-        track.scrollLeft += direction * cardWidth;
-    }
+    const cardWidth = cards[0].offsetWidth + 30;
+    const scrollAmount = cardWidth * 3;
+
+    track.scrollLeft += direction * scrollAmount;
+}
 </script>
 
 {% endblock %}

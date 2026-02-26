@@ -7,12 +7,12 @@
 <div class="job-container">
 
     <!-- Filter Tabs -->
-    <div class="tabs mb-4">
-        <a href="?status=all" class="tab active">All</a>
-        <a href="?status=live" class="tab">Live</a>
-        <a href="?status=closed" class="tab">Closed</a>
-        <a href="?status=expired" class="tab">Expired</a>
-    </div>
+    <div class="tabs">
+    <a href="?status=all" class="tab" data-status="all">All</a>
+    <a href="?status=live" class="tab" data-status="live">Live</a>
+    <a href="?status=closed" class="tab" data-status="closed">Closed</a>
+    <a href="?status=expired" class="tab" data-status="expired">Expired</a>
+</div>
 
     <div class="table-box">
         <table>
@@ -58,7 +58,7 @@
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="6" class="no-data">
+                    <td colspan="" class="no-data">
                         No jobs posted yet.
                     </td>
                 </tr>
@@ -68,4 +68,21 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const tabs = document.querySelectorAll(".tab");
+        const params = new URLSearchParams(window.location.search);
+        const currentStatus = params.get("status") || "all";
+
+        tabs.forEach(tab => {
+            if (tab.dataset.status === currentStatus) {
+                tab.classList.add("active");
+            } else {
+                tab.classList.remove("active");
+            }
+        });
+
+    });
+</script>
 {% endblock %}

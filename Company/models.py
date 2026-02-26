@@ -113,7 +113,11 @@ class Application(models.Model):
 
     cover_letter = models.TextField(blank=True, null=True)
 
+<<<<<<< Updated upstream
     # created_at = models.DateTimeField(auto_now_add=True)
+=======
+   # created_at = models.DateTimeField(auto_now_add=True)
+>>>>>>> Stashed changes
     is_active = models.BooleanField(default=True)
 
     class Meta:

@@ -204,12 +204,12 @@ def view_applications(request):
 
     elif status == 'expired':
         jobs = jobs.filter(deadline__lt=today)
-
+         
     jobs = jobs.annotate(applicant_count=Count('applications')).order_by('-posted_date')
 
     return render(request, 'applications.html', {
         'jobs': jobs,
-        'today': today,
+        'today': today, 
         'pageTitle': 'View Applications'
     })
 
@@ -236,6 +236,7 @@ def job_list_api(request):
 
     from .serializers import JobPostingSerializer
     serializer = JobPostingSerializer(jobs, many=True)
+    print(serializer.data)
     return Response(serializer.data)
 
 
@@ -248,10 +249,8 @@ def job_applicants_api(request, job_id):
     from .serializers import ApplicationSerializer
     serializer = ApplicationSerializer(applications, many=True)
     return Response(serializer.data)
-
-
-# def ViewApplications(request):
-#     return render(request, 'applications.html', {'pageTitle': "View Applications"})
+#def ViewApplications(request):
+   #-9 return render(request, 'applications.html', {'pageTitle': "View Applications"})
 
 @login_required
 def ToggleJobStatus(request, job_id):
