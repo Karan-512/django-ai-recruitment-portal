@@ -13,7 +13,7 @@ from rest_framework.decorators import permission_classes
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import JobPosting
-from .serializers import JobPostingSerializer, ApplicationSerializer
+from .serializers import JobPostingSerializer
 
 
 
@@ -172,9 +172,9 @@ def JobDetail(request, job_id):
         company=company  # ensures company sees only its jobs
     )
 
-    return render(request, "job_detail.html", {
+    return render(request, "company_job_detail.html", {
         "job": job,
-        "pageTitle": "Job Details"
+        "pageTitle": "Company Dashboard"
     })
 
 
@@ -244,7 +244,6 @@ def job_list_api(request):
     jobs = JobPosting.objects.filter(company=company)
 
     serializer = JobPostingSerializer(jobs, many=True)
-    print(serializer.data)
     return Response(serializer.data)
 
 
@@ -278,6 +277,7 @@ def get_jobs(request):
     serializer = JobPostingSerializer(jobs, many=True)
     return Response(serializer.data)
 
+
 @api_view(['GET'])
 def get_job_detail(request, pk):
     job = get_object_or_404(
@@ -286,5 +286,4 @@ def get_job_detail(request, pk):
     )
 
     serializer = JobPostingSerializer(job)
-    print(serializer.data)
     return Response(serializer.data)

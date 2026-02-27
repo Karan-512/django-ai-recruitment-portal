@@ -59,7 +59,7 @@
     <div class="carousel-track" id="carouselTrack">
 
         {% for job in jobs %}
-        <a href="{% url 'job_detail' job.id %}" style="text-decoration:none;color:inherit;">
+        <a href="{% url 'company_job_detail' job.id %}" style="text-decoration:none;color:inherit;">
             <div class="job-card">
                 <h4 class="mb-3">{{ job.job_title }}</h4>
 

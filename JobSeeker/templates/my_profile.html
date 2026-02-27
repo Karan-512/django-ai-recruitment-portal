@@ -1,17 +1,432 @@
 {% extends 'js_base.html' %}
 <title>{% block title %} My Profile {% endblock %}</title>
 <h3>{% block pageTitle %} My Profile {% endblock %}</h3>
-{% block content %}
 
-<div class="container py-4 js-outer-container">
-    <div class="name-card">
-        <div class="row g-4 d-flex justify-content-center align-items-center">
-            <div class="col-12 col-md-4"></div>
-            <div class="col-12 col-md-8">
-                
+
+{% block content %}
+<div class="my-applications-container">
+    <div class="profile-wrapper">
+        <form method="POST" enctype="multipart/form-data" id="profileForm" action="{% url 'js-my-profile' %}">
+            {% csrf_token %}
+
+            <!-- ================= HEADER CARD ================= -->
+            <div class="card header-card">
+
+                <div class="profile-left">
+
+                    <div class="avatar-wrapper">
+
+                        {% if profile.profile_image %}
+                        <img src="{{ profile.profile_image.url }}" class="avatar-img">
+                        {% else %}
+                        <div class="avatar-placeholder">
+                            {{ request.user.first_name|first }}
+                        </div>
+                        {% endif %}
+
+                        <div class="image-upload">
+                            <label for="profileImageInput" class="change-photo">
+                                Change
+                            </label>
+                            <input type="file" name="profile_image" id="profileImageInput" class="image-input editable">
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <h2>{{ request.user.first_name }} {{ request.user.last_name }}
+                            <!-- <input name="first_name" value="{{ request.user.first_name }}" class="editable big">
+                            <input name="last_name" value="" class="editable big"> -->
+                        </h2>
+
+                        <i class="fi fi-rr-envelope me-2" style="color: rgb(82 82 82);"></i>
+                        <span style="font-size: 1em; color:rgb(82 82 82)">
+                            {{ request.user.email }}</span>
+                    </div>
+
+                </div>
+
+                <button type="button" id="editBtn" class="edit-btn">
+                    Edit Profile
+                </button>
+
+            </div>
+
+            <!-- ================= GRID SECTION ================= -->
+            <div class="grid-2">
+
+                <!-- Basic Info -->
+                <div class="card small-card">
+                    <h4><i class="fi fi-rr-id-badge me-3 fs-4"></i>Basic Information</h4>
+                    <hr>
+                    <label style="font-weight: bold;">First Name</label>
+                    <input name="first_name" value="{{ request.user.first_name }}" class="editable">
+
+                    <label style="font-weight: bold;">Last Name</label>
+                    <input name="last_name" value="{{ request.user.last_name }}" class="editable">
+                </div>
+
+                <!-- Skills -->
+                <div class="card small-card">
+                    <h4><i class="fi fi-rr-responsability me-3 fs-4"></i>Skills</h4>
+                    <hr>
+                    <textarea name="skills" class="editable">{{ profile.skills }}</textarea>
+                </div>
+
+                <!-- Phone -->
+                <div class="card small-card">
+                    <h4><i class="fi fi-rr-phone-flip me-3 fs-4"></i>Phone</h4>
+                    <hr>
+                    <input name="phone" value="{{ profile.phone }}" class="editable">
+                </div>
+
+                <!-- Resume -->
+                <div class="card small-card">
+                    <h4><i class="fi fi-rr-resume me-3 fs-4"></i>Resume</h4>
+                    <hr>
+                    {% if profile.resume %}
+                    <a href="{{ profile.resume.url }}" target="_blank" class="btn-view">
+                        View Resume
+                    </a>
+                    {% else %}
+                    <p class="muted">Not uploaded</p>
+                    {% endif %}
+
+                    <input type="file" name="resume" class="editable">
+                </div>
+
+            </div>
+
+            <!-- ================= EXPERIENCE ================= -->
+            <div class="card large-card">
+                <div class="section-header">
+                    <h4><i class="fi fi-rr-user-experience me-3 fs-4"></i>Experience</h4>
+                    <button type="button" class="add-btn" onclick="addExperience()">+ Add</button>
+                </div>
+                <hr>
+                <div id="experienceContainer">
+
+                    {% for exp in profile.experiences.all %}
+                    <div class="entry-card">
+
+                        <button type="button" class="icon-btn delete-existing" onclick="removeEntry(this)">
+                            ✕
+                        </button>
+
+                        <div class="field">
+                            <label>Role</label>
+                            <input name="exp_role" value="{{ exp.role }}" class="editable">
+                        </div>
+
+                        <div class="field">
+                            <label>Company</label>
+                            <input name="exp_company" value="{{ exp.company_name }}" class="editable">
+                        </div>
+
+                        <div class="date-row">
+                            <div class="field small">
+                                <label>Start Date</label>
+                                <input type="date" name="exp_start" value="{{ exp.start_date|date:'Y-m-d' }}"
+                                    class="editable">
+                            </div>
+
+                            <div class="field small">
+                                <label>End Date</label>
+                                <input type="date" name="exp_end" value="{{ exp.end_date|date:'Y-m-d' }}"
+                                    class="editable">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label>Description</label>
+                            <textarea name="exp_desc" class="editable textarea">{{ exp.description }}</textarea>
+                        </div>
+
+                    </div>
+                    {% empty %}
+                    <p class="muted">No Experience added</p>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+            <!-- ================= EDUCATION ================= -->
+            <div class="card large-card">
+                <div class="section-header">
+                    <h4><i class="fi fi-rr-graduation-cap me-3 fs-4"></i>Education</h4>
+                    <button type="button" class="add-btn" onclick="addEducation()">+ Add</button>
+                </div>
+                <hr>
+                <div id="educationContainer">
+
+                    {% for edu in profile.educations.all %}
+                    <div class="entry-card">
+
+                        <button type="button" class="icon-btn delete-existing" onclick="removeEntry(this)">
+                            ✕
+                        </button>
+
+                        <div class="field">
+                            <label>Degree</label>
+                            <input name="edu_degree" value="{{ edu.degree }}" class="editable">
+                        </div>
+
+                        <div class="field">
+                            <label>Institution</label>
+                            <input name="edu_institution" value="{{ edu.institution }}" class="editable">
+                        </div>
+
+                        <div class="date-row">
+                            <div class="field small">
+                                <label>Start Year</label>
+                                <input type="number" name="edu_start" value="{{ edu.start_year }}" class="editable">
+                            </div>
+
+                            <div class="field small">
+                                <label>End Year</label>
+                                <input type="number" name="edu_end" value="{{ edu.end_year }}" class="editable">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label>Field of Study</label>
+                            <input name="edu_field" value="{{ edu.field_of_study }}" class="editable">
+                        </div>
+
+                    </div>
+                    {% empty %}
+                    <p class="muted">No education added</p>
+                    {% endfor %}
+
+                </div>
+            </div>
+            <!-- ================= PROJECTS ================= -->
+            <div class="card large-card">
+                <div class="section-header">
+                    <h4><i class="fi fi-rr-master-plan me-3 fs-4"></i>Projects</h4>
+                    <button type="button" class="add-btn" onclick="addProject()">+ Add</button>
+                </div>
+                <hr>
+                <div id="projectContainer">
+
+                    {% for proj in profile.projects.all %}
+                    <div class="entry-card">
+
+                        <button type="button" class="icon-btn delete-existing" onclick="removeEntry(this)">
+                            ✕
+                        </button>
+
+                        <div class="field">
+                            <label>Project Title</label>
+                            <input name="proj_title" value="{{ proj.title }}" class="editable">
+                        </div>
+
+                        <div class="field">
+                            <label>Description</label>
+                            <textarea name="proj_desc" class="editable textarea">{{ proj.description }}</textarea>
+                        </div>
+
+                        <div class="field">
+                            <label>Technologies Used</label>
+                            <input name="proj_tech" value="{{ proj.technologies_used }}" class="editable">
+                        </div>
+
+                        <div class="field">
+                            <label>Project Link</label>
+                            <input name="proj_link" value="{{ proj.project_link }}" class="editable">
+                        </div>
+
+                    </div>
+                    {% empty %}
+                    <p class="muted">No projects added</p>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+            <!-- FOOTER SAVE -->
+            <div class="save-footer">
+                <button type="button" onclick="cancelEdit()" class="btn-cancel">Cancel</button>
+                <button type="submit" class="btn-save">Save Changes</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+
+    const form = document.getElementById("profileForm");
+    const editBtn = document.getElementById("editBtn");
+
+    editBtn.addEventListener("click", () => {
+        form.classList.add("edit-mode");
+    });
+
+    function cancelEdit() {
+        window.location.reload();
+    }
+    function isEditMode() {
+        return document.getElementById("profileForm")
+            .classList.contains("edit-mode");
+    }
+
+    function autoResizeTextareas() {
+        document.querySelectorAll("textarea").forEach(textarea => {
+            textarea.style.height = "auto";
+            textarea.style.height = textarea.scrollHeight + "px";
+        });
+    }
+
+    // Run on page load
+    document.addEventListener("DOMContentLoaded", autoResizeTextareas);
+
+    function addExperience() {
+
+        if (!isEditMode()) return;
+
+        const container = document.getElementById("experienceContainer");
+
+        const div = document.createElement("div");
+        div.classList.add("entry-card", "new-entry");
+
+        div.innerHTML = `
+        <div class="entry-actions">
+            <button type="button" class="icon-btn cancel-new">Cancel</button>
+        </div>
+
+        <div class="field">
+            <label>Role</label>
+            <input name="exp_role" class="editable">
+        </div>
+
+        <div class="field">
+            <label>Company</label>
+            <input name="exp_company" class="editable">
+        </div>
+
+        <div class="date-row">
+            <div class="field small">
+                <label>Start Date</label>
+                <input type="date" name="exp_start" class="editable">
+            </div>
+
+            <div class="field small">
+                <label>End Date</label>
+                <input type="date" name="exp_end" class="editable">
             </div>
         </div>
-    </div>
 
-</div>
+        <div class="field">
+            <label>Description</label>
+            <textarea name="exp_desc" class="editable textarea"></textarea>
+        </div>
+    `;
+
+        container.appendChild(div);
+        autoResizeTextareas();
+
+        div.querySelector(".cancel-new").addEventListener("click", function () {
+            div.remove();
+        });
+    }
+
+    function removeEntry(button) {
+        const card = button.closest(".entry-card");
+        card.remove();
+    }
+
+    function addEducation() {
+
+        if (!isEditMode()) return;
+
+        const container = document.getElementById("educationContainer");
+
+        const div = document.createElement("div");
+        div.classList.add("entry-card", "new-entry");
+
+        div.innerHTML = `
+        <div class="entry-actions">
+            <button type="button" class="icon-btn cancel-new">Cancel</button>
+        </div>
+
+        <div class="field">
+            <label>Degree</label>
+            <input name="edu_degree" class="editable">
+        </div>
+
+        <div class="field">
+            <label>Institution</label>
+            <input name="edu_institution" class="editable">
+        </div>
+
+        <div class="date-row">
+            <div class="field small">
+                <label>Start Year</label>
+                <input type="number" name="edu_start" class="editable">
+            </div>
+
+            <div class="field small">
+                <label>End Year</label>
+                <input type="number" name="edu_end" class="editable">
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Field of Study</label>
+            <input name="edu_field" class="editable">
+        </div>
+    `;
+
+        container.appendChild(div);
+        autoResizeTextareas();
+
+        div.querySelector(".cancel-new").addEventListener("click", function () {
+            div.remove();
+        });
+    }
+
+    function addProject() {
+        if (!isEditMode()) return;
+
+        const container = document.getElementById("projectContainer");
+
+        const div = document.createElement("div");
+        div.classList.add("entry-card", "new-entry");
+
+        div.innerHTML = `
+        <div class="entry-actions">
+            <button type="button" class="icon-btn cancel-new">Cancel</button>
+        </div>
+
+        <div class="field">
+            <label>Project Title</label>
+            <input name="proj_title" class="editable">
+        </div>
+
+        <div class="field">
+            <label>Description</label>
+            <textarea name="proj_desc" class="editable textarea"></textarea>
+        </div>
+
+        <div class="field">
+            <label>Technologies Used</label>
+            <input name="proj_tech" class="editable">
+        </div>
+
+        <div class="field">
+            <label>Project Link</label>
+            <input name="proj_link" class="editable">
+        </div>
+    `;
+
+        container.appendChild(div);
+        autoResizeTextareas();
+
+        div.querySelector(".cancel-new").addEventListener("click", function () {
+            div.remove();
+        });
+    }
+</script>
 {% endblock %}

@@ -528,7 +528,7 @@ input::-ms-clear {
     margin-top: 30px;
 
     /* SPACE FOR ARROWS */
-    padding: 0 70px; 
+    padding: 0 70px;
 }
 
 /* Track */
@@ -567,7 +567,7 @@ input::-ms-clear {
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     cursor: pointer;
     z-index: 20;
     display: flex;
@@ -583,6 +583,7 @@ input::-ms-clear {
 .carousel-btn.right {
     right: 15px;
 }
+
 /* COMPANY DASHBOARD END */
 /* application page css */
 
@@ -594,7 +595,7 @@ input::-ms-clear {
 
 /* Job Seeker my application */
 .my-applications-container {
-    background-color: color-mix(in srgb, var(--primary-color) 20%, transparent);
+    background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
     padding: 30px;
     border-radius: 15px;
 }
@@ -629,6 +630,7 @@ input::-ms-clear {
     background: #5a67f2;
     color: white;
 }
+
 /* Table */
 .table-box {
     background: white;
@@ -666,28 +668,29 @@ td {
     font-weight: 500;
 }
 
-.status.live, .status.Accepted {
+.status.live,
+.status.Accepted {
     background: #d4f8e8;
     color: #1c9e63;
 }
+
 .status.Applied {
     background-color: #bbf7d0;
     color: #15803d;
 }
-.status.closed, .status.Rejected {
+
+.status.closed,
+.status.Rejected {
     background: #ffdede;
     color: #d63031;
 }
 
-.status.expired, .status.Shortlisted, .status.Reviewing {
+.status.expired,
+.status.Shortlisted,
+.status.Reviewing {
     background: #ffe8c7;
     color: #e67e22;
 }
-/* Applied
-Reviewing
-Shortlisted
-Rejected
-Accepted */
 
 /* Button */
 .view-btn {
@@ -789,7 +792,7 @@ Accepted */
     color: #374151;
 }
 
- 
+
 
 /* COMPANY APP CSS END */
 
@@ -813,6 +816,328 @@ Accepted */
 
 /* JOB SEEKER HOME END */
 
+
+
+
+
+
+
+
+/* <style> */
+.avatar-wrapper {
+    position: relative;
+    width: 90px;
+    height: 90px;
+}
+
+.avatar-img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.avatar-placeholder {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: #2d6cdf;
+    color: white;
+    font-size: 32px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-upload {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+}
+
+.change-photo {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: none;
+}
+
+.image-input {
+    display: none;
+}
+
+/* Show only in edit mode */
+.edit-mode .change-photo {
+    display: inline-block;
+}
+
+.entry {
+    position: relative;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 0;
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    color: #999;
+    cursor: pointer;
+    display: none;
+}
+
+.delete-btn:hover {
+    color: #e74c3c;
+}
+
+/* Show delete only in edit mode */
+.edit-mode .delete-btn {
+    display: block;
+}
+
+.entry-card {
+    position: relative;
+    padding: 25px;
+    margin-bottom: 20px;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+    background: #fafafa;
+    transition: all 0.2s ease;
+}
+
+.entry-card:hover {
+    background: #f3f6fb;
+}
+
+.new-entry {
+    border: 1px solid #2d6cdf;
+    background: #f0f6ff;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+.field label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #666;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.edit-mode .field label {
+    display: block;
+}
+
+.editable {
+    border: none;
+    border-bottom: 1px solid transparent;
+    padding: 6px 0;
+    background: transparent;
+    pointer-events: none;
+}
+
+.edit-mode .editable {
+    pointer-events: auto;
+    border-bottom: 1px solid #2d6cdf;
+}
+
+.textarea {
+    resize: none;
+}
+
+.textarea {
+    width: 100%;
+    border: none;
+    background: transparent;
+    resize: none;
+    overflow: hidden;
+    padding: 6px 0;
+    min-height: 24px;
+    line-height: 1.5;
+    pointer-events: none;
+}
+
+/* Edit mode behavior */
+.edit-mode .textarea {
+    border-bottom: 1px solid #2d6cdf;
+    resize: vertical;
+    overflow: auto;
+    pointer-events: auto;
+    min-height: 80px;
+}
+
+.date-row {
+    display: flex;
+    gap: 20px;
+}
+
+.field.small {
+    width: 200px;
+}
+
+.icon-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: #999;
+}
+
+.icon-btn:hover {
+    color: #e74c3c;
+}
+
+.entry-actions {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.profile-wrapper {
+    max-width: 1000px;
+    margin: 40px auto;
+}
+
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.header-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-left {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.avatar-circle {
+    width: 70px;
+    height: 70px;
+    background: #2d6cdf;
+    color: white;
+    font-size: 26px;
+    font-weight: 600;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.large-card {
+    padding: 30px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.entry {
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.title {
+    font-weight: 600;
+    font-size: 17px;
+}
+
+.company {
+    color: #555;
+}
+
+.date-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: #888;
+}
+
+.editable {
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 5px 0;
+    pointer-events: none;
+}
+
+.edit-mode .editable {
+    pointer-events: auto;
+    border-bottom: 1px solid #2d6cdf;
+}
+
+.btn-view {
+    background: #2d6cdf;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.edit-btn {
+    border: 1px solid #2d6cdf;
+    color: #2d6cdf;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: transparent;
+}
+
+.save-footer {
+    display: none;
+    text-align: right;
+    margin-top: 20px;
+}
+
+.edit-mode .save-footer {
+    display: block;
+}
+
+.btn-save {
+    background: #2d6cdf;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 6px;
+    border: none;
+}
+
+.btn-cancel {
+    margin-right: 10px;
+}
+
+.muted {
+    color: #888;
+}
+
+/* </style> */
 
 
 
