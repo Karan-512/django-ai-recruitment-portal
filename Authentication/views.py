@@ -84,7 +84,7 @@ def signup_view(request):
 
 def redirect_by_role(user):
     if user.role == 'job_seeker':
-        return redirect('js-my-profile')
+        return redirect('js-home')
     elif user.role == 'company':
         return redirect('company-home')
     else:

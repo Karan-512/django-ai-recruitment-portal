@@ -1130,6 +1130,11 @@ td {
 }
 
 .btn-cancel {
+    background-color: var(--bg-color);
+    color: var(--dark-text);
+    padding: 8px 20px;
+    border-radius: 6px;
+    border: 1px solid var(--dark-text);
     margin-right: 10px;
 }
 

@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from Company.models import CompanyProfile
 from django.contrib import messages
+
+from JobSeeker.models import JobSeekerProfile
 from .models import JobPosting
 from .models import Application
 from django.utils import timezone
@@ -280,10 +282,23 @@ def get_jobs(request):
 
 @api_view(['GET'])
 def get_job_detail(request, pk):
-    job = get_object_or_404(
-        JobPosting.objects.select_related('company'),
-        pk=pk
-    )
+    job = get_object_or_404(JobPosting.objects.select_related("company__user"), pk=pk)
 
     serializer = JobPostingSerializer(job)
-    return Response(serializer.data)
+
+    is_applied = False
+    if request.user.is_authenticated:
+        try:
+            job_seeker = request.user.job_seeker_profile
+            is_applied = Application.objects.filter(
+                job_seeker=job_seeker,
+                job_posting=job,
+                is_active=True
+            ).exists()
+        except JobSeekerProfile.DoesNotExist:
+            pass
+
+    data = serializer.data
+    data["is_applied"] = is_applied
+
+    return Response(data)

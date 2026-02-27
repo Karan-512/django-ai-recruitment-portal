@@ -42,7 +42,7 @@
                         <li class="nav-item">
                             <a class="nav-link"
                                 href="{% if request.user.role == 'job_seeker' %}
-                                        {% url 'js-my-profile' %}
+                                        {% url 'js-home' %}
                                       {% elif request.user.role == 'company' %}
                                         {% url 'company-home' %} {% endif %}">Dashboard</a>
                         </li>

@@ -23,7 +23,7 @@
                         <h3 id="job-title" class="fw-bold mb-3"></h3>
                     </div>
                     <div class="col-3">
-                        <button class="btn btn-primary p-3 w-100">Apply</button>
+                        <button id="apply-btn" class="btn btn-primary p-3 w-100">Apply</button>
                     </div>
                 </div>
 
@@ -39,12 +39,17 @@
 
                 <hr>
 
-                <h5 class="fw-semibold mt-3">Job Description</h5>
+                <h5 class="fw-semibold mt-3">Job Description:</h5>
                 <p id="job-description" class="text-muted mt-2"></p>
 
-                <h5 class="fw-semibold mt-4">Salary</h5>
+                <h5 class="fw-semibold mt-4">Salary:</h5>
                 <p id="job-salary"></p>
 
+                <h5 class="fw-semibold mt-4"> Skills Required:</h5>
+                <p id="job-skills-required"></p>
+
+                <h5 class="fw-semibold mt-4"> Apply By:</h5>
+                <p id="job-dead-line"></p>
             </div>
         </div>
 
@@ -65,12 +70,88 @@
 
     </div>
 </div>
+<!-- Apply Modal -->
+<div class="modal fade" id="applyModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content rounded-4">
 
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold">Apply for this Job</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Cover Letter (Optional)</label>
+                    <textarea id="cover-letter" class="form-control" rows="4"
+                        placeholder="Write a short cover letter..."></textarea>
+                </div>
+            </div>
+
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+
+                <button type="button" id="send-application-btn" class="btn btn-primary">
+                    Send Application
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
 {% endblock %}
 {% block script %}
 <script>
 
     document.addEventListener("DOMContentLoaded", function () {
+        const applyBtn = document.getElementById("apply-btn");
+        const applyModal = new bootstrap.Modal(document.getElementById('applyModal'));
+
+        applyBtn.addEventListener("click", function () {
+            if (!applyBtn.disabled) {
+                applyModal.show();
+            }
+        });
+
+        const sendBtn = document.getElementById("send-application-btn");
+
+        sendBtn.addEventListener("click", async function () {
+
+            const coverLetter = document.getElementById("cover-letter").value;
+            console.log(coverLetter)
+            try {
+                const response = await fetch(`/job-seeker/api/jobs/${jobId}/apply/`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": getCookie("csrftoken")
+                    },
+                    body: JSON.stringify({
+                        cover_letter: coverLetter
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+
+                    applyModal.hide();
+
+                    applyBtn.innerText = "Applied";
+                    applyBtn.classList.remove("btn-primary");
+                    applyBtn.classList.add("btn-success");
+                    applyBtn.disabled = true;
+
+                } else {
+                    alert(data.error || "Something went wrong");
+                }
+
+            } catch (error) {
+                console.error("Apply error:", error);
+            }
+        });
 
         const jobId = "{{ job_id }}";
 
@@ -86,12 +167,35 @@
                 document.getElementById("job-experience").innerText = job.required_experience;
                 document.getElementById("job-description").innerText = job.job_description;
                 document.getElementById("job-salary").innerText = job.salary;
+                document.getElementById("job-skills-required").innerText = job.skills_required;
+
+                const deadline = new Date(job.deadline);
+
+                document.getElementById("job-dead-line").innerText =
+                    deadline.toLocaleDateString('en-GB', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                    });
 
                 // Fill Company Details
                 document.getElementById("company-name").innerText = job.company.company_name;
                 document.getElementById("company-website").innerText = job.company.company_website;
                 document.getElementById("company-email").innerText = job.company.user.email;
                 document.getElementById("company-description").innerText = job.company.description;
+                const applyBtn = document.getElementById("apply-btn");
+
+                if (job.is_applied) {
+                    applyBtn.innerText = "Applied";
+                    applyBtn.classList.remove("btn-primary");
+                    applyBtn.classList.add("btn-success");
+                    applyBtn.disabled = true;
+                    applyBtn.classList.add("opacity-75");
+                    applyBtn.style.cursor = "not-allowed";
+                } else {
+                    applyBtn.innerText = "Apply";
+                    applyBtn.disabled = false;
+                }
 
             } catch (error) {
                 console.error("Error loading job details:", error);
@@ -100,6 +204,20 @@
 
         fetchJobDetail();
     });
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
 
 </script>
 {% endblock %}
