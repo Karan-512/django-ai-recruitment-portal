@@ -666,20 +666,28 @@ td {
     font-weight: 500;
 }
 
-.status.live {
+.status.live, .status.Accepted {
     background: #d4f8e8;
     color: #1c9e63;
 }
-
-.status.closed {
+.status.Applied {
+    background-color: #bbf7d0;
+    color: #15803d;
+}
+.status.closed, .status.Rejected {
     background: #ffdede;
     color: #d63031;
 }
 
-.status.expired {
+.status.expired, .status.Shortlisted, .status.Reviewing {
     background: #ffe8c7;
     color: #e67e22;
 }
+/* Applied
+Reviewing
+Shortlisted
+Rejected
+Accepted */
 
 /* Button */
 .view-btn {

@@ -1,0 +1,78 @@
+{% extends 'c-base.html' %}
+{% load static %}
+{% block title %}Applicants{% endblock %}
+{% block pageTitle %}Applicants{% endblock %}
+
+{% block content %}
+<div class="job-container">
+
+    <!-- Job Heading -->
+    <h3 style="margin-bottom:20px;">
+        Applicants for: {{ job.job_title }}
+    </h3>
+
+    <div class="table-box">
+        <table>
+            <thead>
+                <tr>
+                    <th>Applicant Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th>Applied On</th>
+                    <th>Resume</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for application in applications %}
+                <tr>
+
+                    <td>
+                        {{ application.job_seeker.user.first_name }}
+                        {{ application.job_seeker.user.last_name }}
+                    </td>
+
+                    <td>
+                        {{ application.job_seeker.user.email }}
+                    </td>
+
+                    <td>
+                        {{ application.job_seeker.phone|default:"-" }}
+                    </td>
+
+                    <!-- Application Status -->
+                    <td>
+                        <span class="status {{ application.application_status }}">
+                            {{ application.get_application_status_display }}
+                        </span>
+                    </td>
+
+                    <td>
+                        {{ application.applied_date|date:"M d, Y" }}
+                    </td>
+
+                    <td>
+                        {% if application.job_seeker.resume %}
+                            <a href="{{ application.job_seeker.resume.url }}" target="_blank" class="view-btn">
+                                View Resume
+                            </a>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="no-data">
+                        No applicants yet.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}

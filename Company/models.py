@@ -84,11 +84,11 @@ class JobPosting(models.Model):
 class Application(models.Model):
 
     STATUS_CHOICES = (
-        ('applied', 'Applied'),
-        ('reviewing', 'Reviewing'),
-        ('shortlisted', 'Shortlisted'),
-        ('rejected', 'Rejected'),
-        ('accepted', 'Accepted'),
+        ('Applied', 'Applied'),
+        ('Reviewing', 'Reviewing'),
+        ('Shortlisted', 'Shortlisted'),
+        ('Rejected', 'Rejected'),
+        ('Accepted', 'Accepted'),
     )
 
     job_seeker = models.ForeignKey(
@@ -113,11 +113,7 @@ class Application(models.Model):
 
     cover_letter = models.TextField(blank=True, null=True)
 
-<<<<<<< Updated upstream
     # created_at = models.DateTimeField(auto_now_add=True)
-=======
-   # created_at = models.DateTimeField(auto_now_add=True)
->>>>>>> Stashed changes
     is_active = models.BooleanField(default=True)
 
     class Meta:

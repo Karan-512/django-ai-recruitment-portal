@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from .models import JobPosting, Application
 from .models import JobPosting, CompanyProfile
 from Authentication.serializers import UserSerializer
 
@@ -18,18 +17,6 @@ class JobPostingSerializer(serializers.ModelSerializer):
         model = JobPosting
         fields = '__all__'
 
-
-class ApplicationSerializer(serializers.ModelSerializer):
-    applicant_name = serializers.CharField(source='applicant.user.username')
-
-    class Meta:
-        model = Application
-        fields = [
-            'id',
-            'applicant_name',
-            'resume',
-            'applied_date'
-        ]
 
 
 
