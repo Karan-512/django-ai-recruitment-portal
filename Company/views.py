@@ -201,12 +201,12 @@ def view_applications(request):
 
     elif status == 'expired':
         jobs = jobs.filter(deadline__lt=today)
-         
+
     jobs = jobs.annotate(applicant_count=Count('applications')).order_by('-posted_date')
 
     return render(request, 'applications.html', {
         'jobs': jobs,
-        'today': today, 
+        'today': today,
         'pageTitle': 'View Applications'
     })
 
@@ -232,7 +232,8 @@ def view_applicants(request, job_id):
 
     context = {
         "job": job,
-        "applications": applications
+        "applications": applications,
+        "pageTitle": 'View Applications'
     }
 
     return render(request, "job_applicants.html", context)

@@ -29,7 +29,7 @@
                 </div>
                 <input type="file" id="companyLogoInput" name="company_logo" class="form-control d-none">
                 <label for="companyLogoInput" class="btn btn-primary logo-upload" style="color: white;">
-                    Upload Logo
+                    {% if company.company_logo %} Change Logo {% else %} Upload Logo {% endif %}
                 </label>
             </div>
 
