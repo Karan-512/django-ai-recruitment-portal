@@ -816,14 +816,7 @@ td {
 
 /* JOB SEEKER HOME END */
 
-
-
-
-
-
-
-
-/* <style> */
+/* JOB SEEKER MY PROFILE */
 .avatar-wrapper {
     position: relative;
     width: 90px;
@@ -1142,8 +1135,135 @@ td {
     color: #888;
 }
 
-/* </style> */
+/* JOB SEEKER MY PROFILE END */
 
+/* job_applicants.html file css  */
+
+/* Page Background */
+
+.applicant-page {
+    background: #f2efff;
+    padding: 40px;
+    min-height: 100vh;
+}
+
+.applicant-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+/* Card */
+.applicant-card {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+/* Top Section */
+.card-top {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.profile-img {
+    width: 4em;
+    height: 4em;
+    border-radius: 50%;
+    background: #6c63ff;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-info h3 {
+    margin: 0;
+}
+
+.profile-info p {
+    margin: 4px 0;
+    color: #555;
+}
+
+.location {
+    color: #6c63ff;
+    font-weight: 500;
+}
+
+/* Skills */
+.skills-section {
+    margin: 15px 0;
+}
+
+.skill-tag {
+    background: #e0dcff;
+    color: #4b3fd6;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+/* Experience */
+.experience-section {
+    margin-bottom: 15px;
+}
+
+/* Status */
+.status-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.status-dropdown {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.status-box textarea {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.status-box button {
+    width: 120px;
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+    background: #6c63ff;
+    color: white;
+    cursor: pointer;
+}
+
+.status-box button:hover {
+    background: #574fd6;
+}
+.education-section ul,
+.experience-section ul {
+    padding-left: 18px;
+}
+
+.education-section li,
+.experience-section li {
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #444;
+}
+
+.applicant-link{
+    text-decoration: none;
+    color: var(--dark-text);
+}
+
+/* end the css */
 
 
 @media(max-width:992px) {

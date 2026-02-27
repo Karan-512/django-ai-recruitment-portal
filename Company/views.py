@@ -258,7 +258,7 @@ def ToggleJobStatus(request, job_id):
     job.is_active = not job.is_active
     job.save()
 
-    return redirect("job_detail", job_id=job.id)
+    return redirect("company_job_detail", job_id=job.id)
 
 @api_view(['GET'])
 def get_jobs(request):
@@ -303,3 +303,45 @@ def get_job_detail(request, pk):
     data["is_applied"] = is_applied
 
     return Response(data)
+
+
+@login_required
+def applicant_profile(request, job_id):
+
+    company = get_object_or_404(CompanyProfile, user=request.user)
+
+    job = get_object_or_404(
+        JobPosting,
+        id=job_id,
+        company=company
+    )
+
+    applications = (
+        Application.objects
+        .filter(job_posting=job)
+        .select_related("job_seeker", "job_seeker__user")
+        .order_by("-applied_date")
+    )
+
+    if request.method == "POST":
+        application_id = request.POST.get("application_id")
+
+        selected_application = get_object_or_404(
+            Application,
+            id=application_id,
+            job_posting__company=company
+        )
+
+        new_status = request.POST.get("application_status")
+
+        if new_status:
+            selected_application.application_status = new_status
+            selected_application.save()
+        messages.success(request, "Application status updated successfully!")
+        return redirect("view-applicant-profile", job_id=job.id)
+
+    return render(request, "applicant_profile.html", {
+        "job": job,
+        "applications": applications,
+        'pageTitle':'View Applications'
+    })

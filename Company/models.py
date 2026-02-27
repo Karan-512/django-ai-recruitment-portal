@@ -106,7 +106,7 @@ class Application(models.Model):
     application_status = models.CharField(
         max_length=50,
         choices=STATUS_CHOICES,
-        default='applied'
+        default='Applied'
     )
 
     applied_date = models.DateTimeField(auto_now_add=True)

@@ -17,4 +17,5 @@ urlpatterns = [
 
     #Company View Applicants
     path("job/<int:job_id>/applicants/", views.view_applicants, name="view_applicants"),
+    path("applicant-profile/<int:job_id>/",views.applicant_profile,name="view-applicant-profile"),
 ]

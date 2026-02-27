@@ -120,7 +120,6 @@
         sendBtn.addEventListener("click", async function () {
 
             const coverLetter = document.getElementById("cover-letter").value;
-            console.log(coverLetter)
             try {
                 const response = await fetch(`/job-seeker/api/jobs/${jobId}/apply/`, {
                     method: "POST",

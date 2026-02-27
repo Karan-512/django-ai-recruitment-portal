@@ -4,6 +4,15 @@
 {% block pageTitle %}Applicants{% endblock %}
 
 {% block content %}
+<div class="col-12 d-flex flex-row justify-content-start mb-5">
+    <a href="javascript:history.back()" style="text-decoration: none; color: #64748B;">
+        <div class="row d-fle flex-row justify-content-start align-items-center">
+            <span><i class="fa-regular fa-circle-left fs-4 me-3"></i>
+                <span class="fs-4">Back</span>
+            </span>
+        </div>
+    </a>
+</div>
 <div class="job-container">
 
     <!-- Job Heading -->
@@ -29,8 +38,14 @@
                 <tr>
 
                     <td>
-                        {{ application.job_seeker.user.first_name }}
-                        {{ application.job_seeker.user.last_name }}
+                        <a href="{% url 'view-applicant-profile' job.id %}?application={{ application.id }}"
+                            class="applicant-link">
+                            <u>
+                                {{ application.job_seeker.user.first_name }}
+                                {{ application.job_seeker.user.last_name }}
+                            </u>
+                        </a>
+
                     </td>
 
                     <td>
@@ -54,11 +69,11 @@
 
                     <td>
                         {% if application.job_seeker.resume %}
-                            <a href="{{ application.job_seeker.resume.url }}" target="_blank" class="view-btn">
-                                View Resume
-                            </a>
+                        <a href="{{ application.job_seeker.resume.url }}" target="_blank" class="view-btn">
+                            View Resume
+                        </a>
                         {% else %}
-                            -
+                        -
                         {% endif %}
                     </td>
 

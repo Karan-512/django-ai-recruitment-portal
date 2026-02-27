@@ -23,7 +23,7 @@ def login_view(request):
 
     if request.method == "POST":
 
-        username = request.POST.get('username')
+        username = request.POST.get('username').lower()
         password = request.POST.get('password')
 
         if not username or not password:
@@ -48,7 +48,7 @@ def signup_view(request):
     if request.method == "POST":
         fname = request.POST.get("first_name")
         lname = request.POST.get("last_name")
-        email = request.POST.get("email")
+        email = request.POST.get("email").lower()
         password = request.POST.get("password1")
         cpass = request.POST.get("password2")
         role = request.POST.get("role")

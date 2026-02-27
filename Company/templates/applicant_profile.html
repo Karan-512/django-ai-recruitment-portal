@@ -1,0 +1,170 @@
+{% extends 'c-base.html' %}
+{% load static %}
+
+{% block title %}Applicants{% endblock %}
+{% block pageTitle %}Applicants{% endblock %}
+
+{% block content %}
+<div class="col-12 d-flex flex-row justify-content-start mb-5">
+    <a href="javascript:history.back()" style="text-decoration: none; color: #64748B;">
+        <div class="row d-fle flex-row justify-content-start align-items-center">
+            <span><i class="fa-regular fa-circle-left fs-4 me-3"></i>
+                <span class="fs-4">Back</span>
+            </span>
+        </div>
+    </a>
+</div>
+<div class="applicant-page">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <h3 class="applicant-title">
+        Applicants - {{ job.job_title }}
+    </h3>
+
+    {% for application in applications %}
+    
+    <div class="applicant-card">
+
+        <!-- Top Section -->
+        <div class="card-top mb-3">
+
+            <div class="profile-img">
+                {% if application.job_seeker.profile_image %}
+                <img src="{{application.job_seeker.profile_image.url}}" alt="" class="img-fluid rounded-circle">
+                {% else %}
+                {{ application.job_seeker.user.first_name|slice:":1" }}
+                {% endif %}
+            </div>
+
+            <div class="profile-info">
+                <h3>
+                    {{ application.job_seeker.user.first_name }}
+                    {{ application.job_seeker.user.last_name }}
+                </h3>
+                <p class="mt-3"><i class="fi fi-rr-envelope me-3" style="color: black;"></i> {{ application.job_seeker.user.email }}</p>
+                <p class="mt-3"><i class="fi fi-rr-phone-flip me-3"></i> {{ application.job_seeker.phone }}</p>
+            </div>
+
+        </div>
+        <hr>
+
+        <!-- Skills -->
+        <div class="skills-section mt-4">
+            <strong>Skills:</strong>
+            <span class="skill-tag">
+                {{ application.job_seeker.skills }}
+            </span>
+        </div>
+
+        <!-- Total Experience -->
+        <div class="experience-section mt-3">
+            <strong>Total Experience:</strong>
+            {{ application.job_seeker.experiences.count }} Positions
+        </div>
+
+        <!-- Experience Details -->
+        <div class="experience-section">
+            <strong>Experience Details:</strong>
+
+            {% if application.job_seeker.experiences.all %}
+            <ul class="mt-2">
+                {% for exp in application.job_seeker.experiences.all %}
+                <li>
+                    <strong>{{ exp.role }}</strong> -
+                    {{ exp.company_name }}
+                    ({{ exp.start_date }} -
+                    {% if exp.end_date %}
+                    {{ exp.end_date }}
+                    {% else %}
+                    Present
+                    {% endif %}
+                    )
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No experience added.</p>
+            {% endif %}
+        </div>
+
+        <!-- Education -->
+        <div class="education-section mt-3">
+            <strong>Education:</strong>
+
+            {% if application.job_seeker.educations.all %}
+            <ul class="mt-2">
+                {% for edu in application.job_seeker.educations.all %}
+                <li>
+                    <strong>{{ edu.degree }}</strong> -
+                    {{ edu.institution }}
+                    ({{ edu.start_year }} -
+                    {% if edu.end_year %}
+                    {{ edu.end_year }}
+                    {% else %}
+                    Present
+                    {% endif %}
+                    )
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No education added.</p>
+            {% endif %}
+        </div>
+
+        <!-- Status Update -->
+        <form method="POST" class="status-box" action="{% url 'view-applicant-profile' job.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="application_id" value="{{ application.id }}">
+
+            <h5 class="my-3">Application Status:</h5>
+            <select name="application_status" class="status-dropdown">
+
+                <option value="Applied" {% if application.application_status == "Applied" %}selected{% endif %}>
+                    Applied
+                </option>
+
+                <option value="Reviewing" {% if application.application_status == "Reviewing" %}selected{% endif %}>
+                    Reviewing
+                </option>
+
+                <option value="Shortlisted" {% if application.application_status == "Shortlisted" %}selected{% endif %}>
+                    Shortlisted
+                </option>
+
+
+
+                <option value="Rejected" {% if application.application_status == "Rejected" %}selected{% endif %}>
+                    Rejected
+                </option>
+
+                <option value="Accepted" {% if application.application_status == "Accepted" %}selected{% endif %}>
+                    Accepted
+                </option>
+
+            </select>
+            <!-- 
+            <textarea name="recruiter_notes" rows="3">
+{{ application.recruiter_notes }}
+            </textarea> -->
+
+            <button type="submit" class="mt-4">
+                Update Status
+            </button>
+
+        </form>
+
+    </div>
+    {% empty %}
+    <p>No applicants found.</p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}
